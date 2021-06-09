@@ -127,3 +127,15 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# Django Ignore
+# db.sqlite3
+.vscode
+.idea
+*.pyc
+media/
+voting/migrations/*
+account/migrations/*
+static/
+README.md
