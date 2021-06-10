@@ -135,7 +135,8 @@ dmypy.json
 .idea
 *.pyc
 media/
-voting/migrations/*
-account/migrations/*
+administrator/migrations/*
+student/migrations/*
+staff/migrations/*
 static/
 README.md
