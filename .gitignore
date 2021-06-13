@@ -136,6 +136,7 @@ dmypy.json
 *.pyc
 media/
 administrator/migrations/*
+account/migrations/*
 student/migrations/*
 staff/migrations/*
 static/
