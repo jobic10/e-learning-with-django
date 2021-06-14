@@ -12,15 +12,14 @@
           <span class="login-status online"></span>
           <!--change to offline or busy as needed-->
         </div>
-        <div class="nav-profile-text d-flex flex-column pr-3">
-          <span class="font-weight-medium mb-2">Henry Klein</span>
-          <span class="font-weight-normal">$8,753.00</span>
+        <div class="nav-profile-text d-flex flex-column pr-3 text-wrap">
+          <span class="font-weight-medium mb-2">{{ request.user }}</span>
+          <span class="font-weight-normal">Online</span>
         </div>
-        <span class="badge badge-danger text-white ml-3 rounded">3</span>
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="../../index.html">
+      <a class="nav-link" href="{% url 'adminDashboard' %}">
         <i class="mdi mdi-home menu-icon"></i>
         <span class="menu-title">Dashboard</span>
       </a>
@@ -84,7 +83,7 @@
       <div class="nav-link">
         <div class="mt-4">
           <ul class="mt-4 pl-0">
-            <a class="nav-link" href="{% url 'account_logout' %}">
+            <a class="nav-link" onclick="return confirm('Are you sure you would like to log out ?')" href="{% url 'account_logout' %}">
               <i class="mdi mdi-logout menu-icon"></i>
               <span class="menu-title">Sign Out</span>
             </a>          </ul>
