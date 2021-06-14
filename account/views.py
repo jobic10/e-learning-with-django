@@ -18,6 +18,7 @@ def account_login(request):
 
     context = {}
     if request.method == 'POST':
+        print(request.POST)
         user = EmailBackend.authenticate(request, username=request.POST.get(
             'email'), password=request.POST.get('password'))
         if user != None:
@@ -26,8 +27,12 @@ def account_login(request):
                 return redirect(reverse("adminDashboard"))
             elif user.user_type == '2':
                 return redirect(reverse("staffDashboard"))
-            else:
+            elif user.user_type == '3':
                 return redirect(reverse("studentDashboard"))
+            else:
+                messages.error(request, "You are unknown")
+                logout(user)
+                return redirect("/")
         else:
             messages.error(request, "Invalid details")
             return redirect("/")

@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include "account/partials/header.html" %}
+  </head>
+  <body>
+    <div class="container-scroller">
+          <div class="content-wrapper">
+         {% block content %}
+           
+         {% endblock content %}
+          <footer class="footer">
+          
+    {% include "account/partials/footer.html" %}
+
+          </footer>
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+      <!-- container-scroller -->
+    {% include "account/partials/scripts.html" %}
+    {% if messages %}
+    {% for message in messages  %}
+
+    <script>
+      swal("{{ message.tags|title }}", "{{ message }}", "{{ message.tags }}");
+    </script>
+    {% endfor %}
+    {% endif %}
+  </body>
+</html>

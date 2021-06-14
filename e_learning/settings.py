@@ -61,7 +61,7 @@ ROOT_URLCONF = 'e_learning.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['account/templates'],
+        'DIRS': ['account/templates', 'administrator/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
