@@ -1,0 +1,29 @@
+from django.db import models
+from account.models import CustomUser
+
+
+class Department(models.Model):
+    name = models.CharField(max_length=40, unique=True)
+    is_general = models.BooleanField(default=False)
+
+
+class Course(models.Model):
+    name = models.CharField(max_length=50)
+    code = models.CharField(max_length=10, unique=True)
+    unit = models.IntegerField()
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+
+
+class Session(models.Model):
+    year = models.CharField(max_length=10)  # E.g. 2020/2021
+
+
+class Settings(models.Model):
+    facebook_url = models.URLField(null=True)
+    twitter_url = models.URLField(null=True)
+    github_url = models.URLField(null=True)
+    address = models.CharField(max_length=100, null=True)
+    email = models.EmailField(default="jobowonubi@gmail.com")
+    phone = models.CharField(max_length=15, default="08100134741")
+    academic_session = models.OneToOneField(
+        Session, on_delete=models.SET_NULL, null=True)

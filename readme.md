@@ -1,9 +1,8 @@
 # E-learning with Django
 
-
-
 ### This is a full fledged application built with Python and Django. 🔥🔥🔥🔥🔥
-![e-learning](static/e-learning.jpg)
+
+![e-learning](static/assets/images/e-learning.jpg)
 
 <br>
 
