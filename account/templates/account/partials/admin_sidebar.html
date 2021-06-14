@@ -83,12 +83,11 @@
     <li class="nav-item sidebar-actions">
       <div class="nav-link">
         <div class="mt-4">
-          <div class="border-none">
-            <p class="text-black">Notification</p>
-          </div>
           <ul class="mt-4 pl-0">
-            <li>Sign Out</li>
-          </ul>
+            <a class="nav-link" href="{% url 'account_logout' %}">
+              <i class="mdi mdi-logout menu-icon"></i>
+              <span class="menu-title">Sign Out</span>
+            </a>          </ul>
         </div>
       </div>
     </li>
