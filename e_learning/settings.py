@@ -1,3 +1,4 @@
+import os
 """
 Django settings for e_learning project.
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     # My Apps
     'administrator.apps.AdministratorConfig',
     'student.apps.StudentConfig',
+    'account.apps.AccountConfig',
 
 ]
 
@@ -59,7 +61,7 @@ ROOT_URLCONF = 'e_learning.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['account/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,5 +134,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 # Auth:
-AUTH_USER_MODEL = 'administrator.CustomUser'
+AUTH_USER_MODEL = 'account.CustomUser'

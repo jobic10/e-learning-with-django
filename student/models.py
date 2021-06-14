@@ -1,5 +1,6 @@
 from django.db import models
-from administrator.models import Department, CustomUser, Session, Course
+from administrator.models import Department, Session, Course
+from account.models import CustomUser
 # Create your models here.
 
 
