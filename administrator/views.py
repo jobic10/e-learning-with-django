@@ -6,3 +6,7 @@ from django.shortcuts import render
 def dashboard(request):
     context = {}
     return render(request, "administrator/home.html", context)
+
+
+def add_course(request):
+    pass
