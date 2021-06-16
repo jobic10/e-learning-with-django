@@ -7,6 +7,9 @@ class FormSettings(forms.ModelForm):
         super(FormSettings, self).__init__(*args, **kwargs)
         # Here make some changes such as:
         for field in self.visible_fields():
+            # if field.widget_type == 'checkbox':
+            #     field.field.widget.attrs['class'] = 'form-check'
+            # else:
             field.field.widget.attrs['class'] = 'form-control'
 
 

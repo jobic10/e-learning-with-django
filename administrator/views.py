@@ -32,6 +32,7 @@ def add_course(request):
 
 def add_department(request):
     form = AddDepartmentForm(request.POST or None)
+    print((form))
     context = {
         'form': form
     }
@@ -43,4 +44,5 @@ def add_department(request):
         else:
             messages.error(request, "Invalid Data Provided")
     context['departments'] = Department.objects.all()
+
     return render(request, path('department'), context)

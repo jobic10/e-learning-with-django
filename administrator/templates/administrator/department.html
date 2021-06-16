@@ -1,5 +1,7 @@
 {% extends 'administrator/main.html' %}
 {% load static %}
+{% load extra_tags %}
+
 {% block content %}
   <div class="content-wrapper pb-0">
     <div class="page-header flex-wrap">
@@ -20,11 +22,25 @@
                       <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                         <div>
                             {% csrf_token %}
+                            
                             {% for field in form %}
+                            {% if field.field.widget|is_checkbox %}
+                            <div class="form-check">
+                              {{field.errors}}
+                              <label class="form-check-label" for="id_{{ field.name }}">
+                                <input type="checkbox" class="form-check-input" name="{{ field.name }}" id="id_{{ field.name }}"> {{ field.label }} <i class="input-helper"></i></label>
+                            </div>
+                            {% else %}
+
+                           
                             <div class="form-group">
                             {{field.errors}} {{field.label_tag}} {{field}}
                             </div>  
+                            {% endif %}
                             {% endfor %} 
+                              
+                          
+
                             <div class="form-group">
                             <input type="submit" value="Submit" class="btn btn-info">
                             </div>  
