@@ -45,6 +45,14 @@
     
     <!-- container-scroller -->
     {% include "account/partials/scripts.html" %}
+    {% if messages %}
+    {% for message in messages  %}
+
+    <script>
+      swal("{{ message.tags|title }}", "{{ message }}", "{{ message.tags }}");
+    </script>
+    {% endfor %}
+    {% endif %}
   {% block custom_js %}
     
   {% endblock custom_js %}
