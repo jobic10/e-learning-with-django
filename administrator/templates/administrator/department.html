@@ -61,12 +61,14 @@
                                   <th>SN</th>
                                   <th>Name</th>
                                   <th>General Department</th>
+                                  <th>Action</th>
                                 </tr>
                                 {% for dept in departments  %}
                                   <tr>
                                     <td>{{ forloop.counter }}</td>
                                     <td>{{ dept.name }}</td>
                                     <td>{{ dept.is_general }}</td>
+                                    <td><a href="{% url 'edit_department' dept.id %}" class="btn btn-info">Edit</a> -- <a href="{% url 'delete_department' dept.id %}" class="btn btn-danger">Delete</a> </td>
                                   </tr>
                                 {% endfor %}
                               </table>

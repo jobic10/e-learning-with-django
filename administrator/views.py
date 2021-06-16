@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse, redirect
 from .forms import *
 from django.contrib import messages
 # Administrative Functions
@@ -46,3 +46,24 @@ def add_department(request):
     context['departments'] = Department.objects.all()
 
     return render(request, path('department'), context)
+
+
+def delete_department(request, id):
+    try:
+        # ! Later, check to see students who are enrolled to this course before deleting
+        department = Department.objects.get(id=id)
+        department.delete()
+        messages.success(request, "Department deleted")
+    except:
+        messages.error(request, "Access Denied")
+    return redirect(reverse('add_department'))
+
+
+def edit_department(request, id):
+    try:
+        department = Department.objects.get(id=id)
+        department.delete()
+        messages.success(request, "Department deleted")
+    except:
+        messages.error(request, "Access Denied")
+    return redirect(reverse('add_department'))
