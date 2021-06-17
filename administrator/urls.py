@@ -9,4 +9,7 @@ urlpatterns = [
     path('department/edit/<int:id>', views.edit_department, name="edit_department"),
     path('department/delete/<int:id>',
          views.delete_department, name="delete_department"),
+    path('department/get/<int:id>', views.fetch_department_by_id,
+         name='fetch_department_by_id'),
+    path('department/update', views.updateDepartment, name='updateDepartment'),
 ]

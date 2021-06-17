@@ -68,7 +68,7 @@
                                     <td>{{ forloop.counter }}</td>
                                     <td>{{ dept.name }}</td>
                                     <td>{{ dept.is_general }}</td>
-                                    <td><a href="{% url 'edit_department' dept.id %}" class="btn btn-info">Edit</a> -- <a href="{% url 'delete_department' dept.id %}" class="btn btn-danger">Delete</a> </td>
+                                    <td><a href="#" data-id="{{ dept.id }}" data-check={{ dept.is_general }} data-name={{ dept.name }} class="btn edit btn-info">Edit</a> -- <a href="{% url 'delete_department' dept.id %}" class="btn btn-danger">Delete</a> </td>
                                   </tr>
                                 {% endfor %}
                               </table>
@@ -86,3 +86,61 @@
 
 <!-- main-panel ends -->
 {% endblock content %}
+
+{% block custom_js %}
+  <script>
+    $(function() {
+    $(document).on('click', '.edit', function(e) {
+      e.preventDefault();
+      var id = $(this).data('id');
+      var name = $(this).data('name');
+      var checked = $(this).data('check');
+      $.ajax({
+        type: 'GET',
+        url: '{% url "fetch_department_by_id" 123 %}'.replace('123', id),
+        dataType: 'json',
+        success: function(response) {
+          console.log(response)
+            if (response.error) {
+              swal("Error", "Access Denied", "error");
+          
+                toastr.error(errmsg, "Preview Error")
+            } else {
+                $('#edit_form').modal('show');
+                $('#dept_id').val(id)
+                $('#form_body').html(response.form);
+            }
+        }
+    });
+      $('.name').html(name);
+  });
+});
+  </script>
+{% endblock custom_js %}
+
+{% block modal %}
+<div class="modal fade" id="edit_form">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title"><b><span class="name"></b></h4>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'updateDepartment' %}" method="post">
+              {% csrf_token %}
+              <input type="number" name="dept_id" id="dept_id">
+              <span id="form_body"></span>
+              <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-info">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-flat pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock modal %}
