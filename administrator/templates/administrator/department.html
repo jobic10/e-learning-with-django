@@ -112,7 +112,6 @@
             }
         }
     });
-      $('.name').html(name);
   });
 });
   </script>
@@ -123,14 +122,14 @@
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
+            <h4 class="modal-title float-left"><b>Update Department</b></h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title"><b><span class="name"></b></h4>
-          </div>
-          <div class="modal-body">
-            <form action="{% url 'updateDepartment' %}" method="post">
+              </div>
+              <div class="modal-body">
+                <form action="{% url 'updateDepartment' %}" method="post">
               {% csrf_token %}
-              <input type="number" name="dept_id" id="dept_id">
+              <input type="hidden" name="dept_id" id="dept_id">
               <span id="form_body"></span>
               <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-info">
