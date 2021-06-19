@@ -13,3 +13,9 @@ class AddDepartmentForm(FormSettings):
     class Meta:
         model = Department
         fields = "__all__"
+
+
+class AddSessionForm(FormSettings):
+    class Meta:
+        model = Session
+        fields = "__all__"
