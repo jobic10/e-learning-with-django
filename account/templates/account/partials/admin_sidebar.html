@@ -25,6 +25,19 @@
       </a>
     </li>
     <li class="nav-item">
+      <a class="nav-link" href="{% url 'manageDepartment' %}">
+        <i class="mdi mdi-school menu-icon"></i>
+        <span class="menu-title">Department</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'manageCourse' %}">
+        <i class="mdi mdi-book-multiple menu-icon"></i>
+        <span class="menu-title">Course</span>
+      </a>
+    </li>
+    {% comment %}
+    <li class="nav-item">
       <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
         <i class="mdi mdi-crosshairs-gps menu-icon"></i>
         <span class="menu-title">Departments</span>
@@ -87,5 +100,7 @@
         </div>
       </div>
     </li>
+    {% endcomment %}
+
   </ul>
 </nav>
