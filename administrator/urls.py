@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.dashboard, name="adminDashboard"),
     #     Start of Department
-    path('department/add', views.add_department, name="manageDepartment"),
+    path('department/add', views.manageDepartment, name="manageDepartment"),
     path('department/delete/<int:id>',
          views.delete_department, name="delete_department"),
     path('department/get/<int:id>', views.fetch_department_by_id,
@@ -13,7 +13,7 @@ urlpatterns = [
     path('department/update', views.updateDepartment, name='updateDepartment'),
 
     #     Start of Course
-    path('course/add', views.add_course, name="manageCourse"),
+    path('course/add', views.manageCourse, name="manageCourse"),
     path('course/delete/<int:id>',
          views.delete_course, name="delete_course"),
     path('course/get/<int:id>', views.fetch_course_by_id,
@@ -21,7 +21,7 @@ urlpatterns = [
     path('course/update', views.updateCourse, name='updateCourse'),
 
     # Start of Session
-    path('session/add', views.add_session, name="manageSession"),
+    path('session/add', views.manageSession, name="manageSession"),
     path('session/delete/<int:id>',
          views.delete_session, name="delete_session"),
     path('session/get/<int:id>', views.fetch_session_by_id,

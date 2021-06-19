@@ -14,7 +14,7 @@ def dashboard(request):
     return render(request, path("home"), context)
 
 
-def add_department(request):
+def manageDepartment(request):
     form = AddDepartmentForm(request.POST or None)
     context = {
         'form': form
@@ -39,7 +39,7 @@ def delete_department(request, id):
         messages.success(request, "Department deleted")
     except:
         messages.error(request, "Access Denied")
-    return redirect(reverse('add_department'))
+    return redirect(reverse('manageDepartment'))
 
 
 def fetch_department_by_id(request, id):
@@ -67,12 +67,12 @@ def updateDepartment(request):
     except:
         messages.error(request, "Access Denied!")
 
-    return redirect(reverse('add_department'))
+    return redirect(reverse('manageDepartment'))
 
 # Start of Course
 
 
-def add_course(request):
+def manageCourse(request):
     form = AddCourseForm(request.POST or None)
     context = {
         'form': form
@@ -97,7 +97,7 @@ def delete_course(request, id):
         messages.success(request, "Course deleted")
     except:
         messages.error(request, "Access Denied")
-    return redirect(reverse('add_course'))
+    return redirect(reverse('manageCourse'))
 
 
 def fetch_course_by_id(request, id):
@@ -125,12 +125,12 @@ def updateCourse(request):
     except:
         messages.error(request, "Access Denied!")
 
-    return redirect(reverse('add_course'))
+    return redirect(reverse('manageCourse'))
 
 # Start of Session
 
 
-def add_session(request):
+def manageSession(request):
     form = AddSessionForm(request.POST or None)
     context = {
         'form': form
@@ -155,7 +155,7 @@ def delete_session(request, id):
         messages.success(request, "Session deleted")
     except:
         messages.error(request, "Access Denied")
-    return redirect(reverse('add_session'))
+    return redirect(reverse('manageSession'))
 
 
 def fetch_session_by_id(request, id):
@@ -173,7 +173,7 @@ def fetch_session_by_id(request, id):
 
 def updateSession(request):
     try:
-        session = Course.objects.get(id=request.POST.get('session_id'))
+        session = Session.objects.get(id=request.POST.get('session_id'))
         form = AddSessionForm(request.POST or None, instance=session)
         if form.is_valid():
             form.save()
@@ -183,4 +183,4 @@ def updateSession(request):
     except:
         messages.error(request, "Access Denied!")
 
-    return redirect(reverse('add_session'))
+    return redirect(reverse('manageSession'))
