@@ -33,7 +33,6 @@ def add_course(request):
 
 def add_department(request):
     form = AddDepartmentForm(request.POST or None)
-    print((form))
     context = {
         'form': form
     }
@@ -52,18 +51,6 @@ def add_department(request):
 def delete_department(request, id):
     try:
         # ! Later, check to see students who are enrolled to this course before deleting
-        department = Department.objects.get(id=id)
-        department.delete()
-        messages.success(request, "Department deleted")
-    except:
-        messages.error(request, "Access Denied")
-    return redirect(reverse('add_department'))
-
-
-def edit_department(request, id):
-    pass
-    return None
-    try:
         department = Department.objects.get(id=id)
         department.delete()
         messages.success(request, "Department deleted")
@@ -98,3 +85,44 @@ def updateDepartment(request):
         messages.error(request, "Access Denied!")
 
     return redirect(reverse('add_department'))
+
+# Start of Course
+
+
+def delete_course(request, id):
+    try:
+        # ! Later, check to see students who are enrolled to this course before deleting
+        course = Course.objects.get(id=id)
+        course.delete()
+        messages.success(request, "Course deleted")
+    except:
+        messages.error(request, "Access Denied")
+    return redirect(reverse('add_course'))
+
+
+def fetch_course_by_id(request, id):
+    context = {
+        'error': False
+    }
+    try:
+        course = Course.objects.get(id=id)
+        form = AddCourseForm(request.POST or None, instance=course)
+        context['form'] = form.as_p()
+    except:
+        context['error'] = True
+    return JsonResponse(context)
+
+
+def updateCourse(request):
+    try:
+        course = Course.objects.get(id=request.POST.get('course_id'))
+        form = AddCourseForm(request.POST or None, instance=course)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Updated")
+        else:
+            messages.error(request, "Access Denied")
+    except:
+        messages.error(request, "Access Denied!")
+
+    return redirect(reverse('add_course'))
