@@ -18,7 +18,7 @@ class Course(models.Model):
 
 
 class Session(models.Model):
-    year = models.CharField(max_length=10)  # E.g. 2020/2021
+    year = models.CharField(max_length=10, unique=True)  # E.g. 2020/2021
 
 
 class Settings(models.Model):
