@@ -1,5 +1,6 @@
 from django.db import models
 from account.models import CustomUser
+from django.core.validators import ValidationError
 
 
 class Department(models.Model):
