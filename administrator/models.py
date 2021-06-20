@@ -26,7 +26,19 @@ class Settings(models.Model):
     twitter_url = models.URLField(null=True)
     github_url = models.URLField(null=True)
     address = models.CharField(max_length=100, null=True)
-    email = models.EmailField(default="jobowonubi@gmail.com")
+    email = models.EmailField(default="jobowonubi@gmail.comssssssssssssss")
     phone = models.CharField(max_length=15, default="08100134741")
     academic_session = models.OneToOneField(
         Session, on_delete=models.SET_NULL, null=True)
+
+    """
+    https://stackoverflow.com/questions/39412968/allow-only-one-instance-of-a-model-in-django
+    Since we need just one instance of settings
+    """
+
+    def save(self, *args, **kwargs):
+        if not self.pk and Settings.objects.exists():
+            # if you'll not check for self.pk
+            # then error will also raised in update of exists model
+            raise ValidationError('Update Settings Instead')
+        return super(Settings, self).save(*args, **kwargs)
