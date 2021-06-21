@@ -184,3 +184,120 @@ def updateSession(request):
         messages.error(request, "Access Denied!")
 
     return redirect(reverse('manageSession'))
+
+# Start of Student
+
+
+def manageStudent(request):
+    form = AddStudentForm(request.POST or None)
+    context = {
+        'form': form
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Student Added")
+            context['form'] = AddStudentForm()
+        else:
+            messages.error(request, "Invalid Data Provided")
+    context['students'] = Student.objects.all()
+
+    return render(request, path('student'), context)
+
+
+def delete_student(request, id):
+    try:
+        # ! Later, check associated data with this student
+        student = Student.objects.get(id=id)
+        student.delete()
+        messages.success(request, "Student deleted")
+    except:
+        messages.error(request, "Access Denied")
+    return redirect(reverse('manageStudent'))
+
+
+def fetch_student_by_id(request, id):
+    context = {
+        'error': False
+    }
+    try:
+        student = Student.objects.get(id=id)
+        form = AddStudentForm(request.POST or None, instance=student)
+        context['form'] = form.as_p()
+    except:
+        context['error'] = True
+    return JsonResponse(context)
+
+
+def updateStudent(request):
+    try:
+        student = Student.objects.get(id=request.POST.get('student_id'))
+        form = AddStudentForm(request.POST or None, instance=student)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Updated")
+        else:
+            messages.error(request, "Access Denied")
+    except:
+        messages.error(request, "Access Denied!")
+
+    return redirect(reverse('manageStudent'))
+
+# Start of Staff
+# Start of Staff
+
+
+def manageStaff(request):
+    form = AddStaffForm(request.POST or None)
+    context = {
+        'form': form
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Staff Added")
+            context['form'] = AddStaffForm()
+        else:
+            messages.error(request, "Invalid Data Provided")
+    context['staffs'] = Staff.objects.all()
+
+    return render(request, path('staff'), context)
+
+
+def delete_staff(request, id):
+    try:
+        # ! Later, check associated data with this staff
+        staff = Staff.objects.get(id=id)
+        staff.delete()
+        messages.success(request, "Staff deleted")
+    except:
+        messages.error(request, "Access Denied")
+    return redirect(reverse('manageStaff'))
+
+
+def fetch_staff_by_id(request, id):
+    context = {
+        'error': False
+    }
+    try:
+        staff = Staff.objects.get(id=id)
+        form = AddStaffForm(request.POST or None, instance=staff)
+        context['form'] = form.as_p()
+    except:
+        context['error'] = True
+    return JsonResponse(context)
+
+
+def updateStaff(request):
+    try:
+        staff = Staff.objects.get(id=request.POST.get('staff_id'))
+        form = AddStaffForm(request.POST or None, instance=staff)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Updated")
+        else:
+            messages.error(request, "Access Denied")
+    except:
+        messages.error(request, "Access Denied!")
+
+    return redirect(reverse('manageStaff'))

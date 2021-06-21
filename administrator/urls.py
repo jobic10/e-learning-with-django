@@ -27,4 +27,20 @@ urlpatterns = [
     path('session/get/<int:id>', views.fetch_session_by_id,
          name='fetch_session_by_id'),
     path('session/update', views.updateSession, name='updateSession'),
+
+    #     Start of Staff
+    path('staff/add', views.manageStaff, name="manageStaff"),
+    path('staff/delete/<int:id>',
+         views.delete_staff, name="delete_staff"),
+    path('staff/get/<int:id>', views.fetch_staff_by_id,
+         name='fetch_staff_by_id'),
+    path('staff/update', views.updateStaff, name='updateStaff'),
+
+    #     Start of Student
+    path('student/add', views.manageStudent, name="manageStudent"),
+    path('student/delete/<int:id>',
+         views.delete_student, name="delete_student"),
+    path('student/get/<int:id>', views.fetch_student_by_id,
+         name='fetch_student_by_id'),
+    path('student/update', views.updateStudent, name='updateStudent'),
 ]
