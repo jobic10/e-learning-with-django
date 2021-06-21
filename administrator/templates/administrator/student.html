@@ -49,18 +49,18 @@
                               <tr>
                                 <th>SN</th>
                                 <th>Name</th>
-                                <th>Code</th>
+                                <th>Reg. No</th>
                                 <th>Department</th>
-                                <th>Unit</th>
+                                <th>DOB</th>
                                 <th>Action</th>
                               </tr>
                               {% for student in students  %}
                                 <tr>
                                   <td>{{ forloop.counter }}</td>
-                                  <td>{{ student.name }}</td>
-                                  <td>{{ student.code }}</td>
+                                  <td>{{ student.admin }}</td>
+                                  <td>{{ student.regno }}</td>
                                   <td>{{ student.department }}</td>
-                                  <td>{{ student.unit }}</td>
+                                  <td>{{ student.dob }}</td>
                                   <td><a href="#" data-id="{{ student.id }}" class="btn edit btn-info">Edit</a> -- <a href="{% url 'delete_student' student.id %}" class="btn btn-danger">Delete</a> </td>
                                 </tr>
                               {% endfor %}
