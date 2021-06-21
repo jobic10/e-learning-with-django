@@ -65,7 +65,21 @@
                                 </tr>
                               {% endfor %}
                             </table>
+                            
                           </div>
+                            <ul class="pagination nav ">
+                              {% if students.has_previous %}
+                                      <li><a href="?page={{ students.previous_page_number }}">Prev</a></li>
+                              {% endif %}
+                              {% for page in students.paginator.page_range %}
+                                  <li class="{% if students.number == page  %}active{% endif %}"><a href="?page={{page }}">{{ page }}</a></li>
+                              {% endfor %}
+                          
+                              {% if students.has_next %}
+                                  <li> <a href="?page={{ students.next_page_number }}">Next</a></li>
+                              {% endif %}
+                           </ul>
+                        
                       </div>
                     </div>
                   </div>

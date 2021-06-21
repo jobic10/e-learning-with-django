@@ -3,6 +3,7 @@ from .forms import *
 from account.forms import CustomUserForm
 from django.contrib import messages
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 # Administrative Functions
 
 
@@ -214,7 +215,9 @@ def manageStudent(request):
 
         else:
             messages.error(request, "Invalid Data Provided")
-    context['students'] = Student.objects.all()
+    paginator = Paginator(Student.objects.all(), 1)
+    page = request.GET.get('page', 1)
+    context['students'] = paginator.get_page(page)
 
     return render(request, path('student'), context)
 
