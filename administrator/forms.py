@@ -26,6 +26,10 @@ class AddStudentForm(FormSettings):
     class Meta:
         model = Student
         exclude = ['admin']
+        # https://stackoverflow.com/questions/22846048/django-form-as-p-datefield-not-showing-input-type-as-date
+        widgets = {
+            'dob': forms.DateInput(attrs={'type': 'date'})
+        }
 
 
 class AddStaffForm(FormSettings):
