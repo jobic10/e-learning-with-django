@@ -25,10 +25,10 @@ class AddSessionForm(FormSettings):
 class AddStudentForm(FormSettings):
     class Meta:
         model = Student
-        fields = "__all__"
+        exclude = ['admin']
 
 
 class AddStaffForm(FormSettings):
     class Meta:
         model = Staff
-        fields = "__all__"
+        exclude = ['admin']

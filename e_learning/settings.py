@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'administrator.apps.AdministratorConfig',
     'student.apps.StudentConfig',
     'account.apps.AccountConfig',
+    'staff.apps.StaffConfig',
 
 ]
 

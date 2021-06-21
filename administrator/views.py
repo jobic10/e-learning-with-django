@@ -1,5 +1,6 @@
 from django.shortcuts import render, reverse, redirect
 from .forms import *
+from account.forms import CustomUserForm
 from django.contrib import messages
 from django.http import JsonResponse
 # Administrative Functions
@@ -24,6 +25,7 @@ def manageDepartment(request):
             form.save()
             messages.success(request, "Department Added")
             context['form'] = AddDepartmentForm()
+            return redirect(reverse('manageDepartment'))
         else:
             messages.error(request, "Invalid Data Provided")
     context['departments'] = Department.objects.all()
@@ -82,6 +84,8 @@ def manageCourse(request):
             form.save()
             messages.success(request, "Course Added")
             context['form'] = AddCourseForm()
+            return redirect(reverse('manageCourse'))
+
         else:
             messages.error(request, "Invalid Data Provided")
     context['courses'] = Course.objects.all()
@@ -140,6 +144,8 @@ def manageSession(request):
             form.save()
             messages.success(request, "Session Added")
             context['form'] = AddSessionForm()
+            return redirect(reverse('manageSession'))
+
         else:
             messages.error(request, "Invalid Data Provided")
     context['sessions'] = Session.objects.all()
@@ -189,15 +195,23 @@ def updateSession(request):
 
 
 def manageStudent(request):
-    form = AddStudentForm(request.POST or None)
+    form = CustomUserForm(request.POST or None)
+    form2 = AddStudentForm(request.POST or None)
     context = {
-        'form': form
+        'form': form,
+        'form2': form2
     }
     if request.method == 'POST':
-        if form.is_valid():
-            form.save()
+        if form.is_valid() and form2.is_valid():
+            admin = form.save(commit=False)
+            student = form2.save(commit=False)
+            student.admin = admin
+            admin.save()
+            student.save()
             messages.success(request, "Student Added")
             context['form'] = AddStudentForm()
+            return redirect(reverse('manageStudent'))
+
         else:
             messages.error(request, "Invalid Data Provided")
     context['students'] = Student.objects.all()
@@ -243,7 +257,6 @@ def updateStudent(request):
 
     return redirect(reverse('manageStudent'))
 
-# Start of Staff
 # Start of Staff
 
 
