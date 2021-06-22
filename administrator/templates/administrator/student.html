@@ -67,19 +67,34 @@
                             </table>
                             
                           </div>
-                            <ul class="pagination nav ">
+                          <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center ">
+                           
                               {% if students.has_previous %}
-                                      <li><a href="?page={{ students.previous_page_number }}">Prev</a></li>
+                              <li class="page-item"><a class="page-link" href="?page={{ students.previous_page_number }}">&laquo;</a></li>
+                                      {% else %}
+                                      <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">&laquo;</a>
+                                      </li>
                               {% endif %}
+                            
                               {% for page in students.paginator.page_range %}
-                                  <li class="{% if students.number == page  %}active{% endif %}"><a href="?page={{page }}">{{ page }}</a></li>
+                              
+                              {% if page <= students.number|add:2 and page >= students.number|add:-2 %}
+                                  <li class="page-item {% if students.number == page  %}active{% endif %}"><a class="page-link" href="?page={{page }}">{{ page }}</a></li>
+                                  {% endif %}
                               {% endfor %}
                           
                               {% if students.has_next %}
-                                  <li> <a href="?page={{ students.next_page_number }}">Next</a></li>
+                              <li class="page-item"><a class="page-link" href="?page={{ students.next_page_number }}">&raquo;</a></li>
+                                      {% else %}
+                                      <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">&raquo;</a>
+                                      </li>
                               {% endif %}
+
                            </ul>
-                        
+                          </nav>
                       </div>
                     </div>
                   </div>

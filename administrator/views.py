@@ -215,7 +215,7 @@ def manageStudent(request):
 
         else:
             messages.error(request, "Invalid Data Provided")
-    paginator = Paginator(Student.objects.all(), 1)
+    paginator = Paginator(Student.objects.all(), 50)
     page = request.GET.get('page', 1)
     context['students'] = paginator.get_page(page)
 
