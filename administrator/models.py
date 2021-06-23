@@ -21,13 +21,16 @@ class Course(models.Model):
 class Session(models.Model):
     year = models.CharField(max_length=10, unique=True)  # E.g. 2020/2021
 
+    def __str__(self):
+        return self.year
+
 
 class Settings(models.Model):
     facebook_url = models.URLField(null=True)
     twitter_url = models.URLField(null=True)
     github_url = models.URLField(null=True)
     address = models.CharField(max_length=100, null=True)
-    email = models.EmailField(default="jobowonubi@gmail.comssssssssssssss")
+    email = models.EmailField(default="jobowonubi@gmail.com")
     phone = models.CharField(max_length=15, default="08100134741")
     academic_session = models.OneToOneField(
         Session, on_delete=models.SET_NULL, null=True)

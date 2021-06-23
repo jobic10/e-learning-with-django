@@ -335,3 +335,11 @@ def updateStaff(request):
         messages.error(request, "Access Denied!")
 
     return redirect(reverse('manageStaff'))
+
+
+def siteSettings(request):
+    form = SettingsForm()
+    context = {
+        'form': form
+    }
+    return render(request, path('settings'), context)

@@ -2,6 +2,7 @@ from account.forms import FormSettings
 from student.models import *
 from staff.models import Staff
 from django import forms
+from .models import Settings
 
 
 class AddCourseForm(FormSettings):
@@ -36,3 +37,9 @@ class AddStaffForm(FormSettings):
     class Meta:
         model = Staff
         exclude = ['admin']
+
+
+class SettingsForm(FormSettings):
+    class Meta:
+        model = Settings
+        fields = "__all__"

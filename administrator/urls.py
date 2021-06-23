@@ -43,4 +43,7 @@ urlpatterns = [
     path('student/get/<int:id>', views.fetch_student_by_id,
          name='fetch_student_by_id'),
     path('student/update', views.updateStudent, name='updateStudent'),
+
+    #     Start of Settings
+    path('site/settings/', views.siteSettings, name='siteSettings'),
 ]
