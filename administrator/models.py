@@ -32,7 +32,7 @@ class Settings(models.Model):
     address = models.CharField(max_length=100, null=True)
     email = models.EmailField(default="jobowonubi@gmail.com")
     phone = models.CharField(max_length=15, default="08100134741")
-    academic_session = models.OneToOneField(
+    current_academic_session = models.OneToOneField(
         Session, on_delete=models.SET_NULL, null=True)
 
     """
@@ -40,9 +40,9 @@ class Settings(models.Model):
     Since we need just one instance of settings
     """
 
-    def save(self, *args, **kwargs):
+    def is_valid(self, *args, **kwargs):
         if not self.pk and Settings.objects.exists():
             # if you'll not check for self.pk
             # then error will also raised in update of exists model
             raise ValidationError('Update Settings Instead')
-        return super(Settings, self).save(*args, **kwargs)
+        return super(Settings, self).is_valid(*args, **kwargs)

@@ -40,6 +40,18 @@ class AddStaffForm(FormSettings):
 
 
 class SettingsForm(FormSettings):
+    def clean(self):
+        # Then call the clean() method of the super  class
+        cleaned_data = super(SettingsForm, self).clean()
+        print("Cleaned ===> ", cleaned_data)
+        print("Self ===> ", dir(self))
+        if not self.instance.pk and Settings.objects.exists():
+            # if not self.pk and Settings.objects.exists():
+            raise forms.ValidationError("Update Site Settings Instead")
+            # ... do some cross-fields validation for the subclass
+            # Finally, return the cleaned_data
+        return cleaned_data
+
     class Meta:
         model = Settings
         fields = "__all__"

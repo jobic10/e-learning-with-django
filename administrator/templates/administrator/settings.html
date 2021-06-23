@@ -12,48 +12,25 @@
         <div class="card">
           <div class="card-body">
             <div class="row">
-              <div class="col-sm-3">
-                <div class="card mb-3 mb-sm-0">
-                  <div class="card-body py-3 px-4">
-                    <form action="" method="post">
-                      <p class="m-0 survey-head">E.g. (2020/2021)</p>
-                      <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                        <div>
-                            {% csrf_token %}
-                            {% for field in form %}
-                            <div class="form-group">
-                            {{field.errors}} {{field.label_tag}} {{field}}
-                            </div>  
-                            {% endfor %} 
-                            <div class="form-group">
-                            <input type="submit" value="Submit" class="btn btn-info">
-                            </div>  
-                        </div>
-                    </form>
-                    </div>
-                  </div>
-                </div>
-                </div>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                   <div class="card mb-3 mb-sm-0">
                     <div class="card-body py-3 px-4">
-                        <p class="m-0 survey-head">Previously Entered Sessions</p>
+                        <p class="m-0 survey-head">Website Site Settings</p>
                         <hr>
-                        <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                            <table class="table-striped table">
-                              <tr>
-                                <th>SN</th>
-                                <th>Name</th>
-                                <th>Action</th>
-                              </tr>
-                              {% for session in sessions  %}
-                                <tr>
-                                  <td>{{ forloop.counter }}</td>
-                                  <td>{{ session.year }}</td>
-                                  <td><a href="#" data-id="{{ session.id }}" class="btn edit btn-info">Edit</a> -- <a href="{% url 'delete_session' session.id %}" class="btn btn-danger">Delete</a> </td>
-                                </tr>
-                              {% endfor %}
-                            </table>
+                        <div class="">
+                          <form action="" method="post">
+                              <div>
+                                  {% csrf_token %}
+                                  {% for field in form %}
+                                  <div class="form-group">
+                                  {{field.errors}} {{field.label_tag}} {{field}}
+                                  </div>  
+                                  {% endfor %} 
+                                  <div class="form-group">
+                                  <input type="submit" value="Submit" class="btn btn-info">
+                                  </div>  
+                              </div>
+                          </form>
                           </div>
                       </div>
                     </div>

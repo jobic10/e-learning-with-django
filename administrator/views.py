@@ -338,8 +338,19 @@ def updateStaff(request):
 
 
 def siteSettings(request):
-    form = SettingsForm()
+    settings = Settings.objects.all()
+    if settings.exists():
+        form = SettingsForm(request.POST or None, instance=settings[0])
+    else:
+        form = SettingsForm(request.POST or None)
     context = {
         'form': form
     }
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Site Settings Updated")
+            return redirect(reverse('siteSettings'))
+        else:
+            messages.error(request, "Site Settings Could Not Be Updated")
     return render(request, path('settings'), context)
