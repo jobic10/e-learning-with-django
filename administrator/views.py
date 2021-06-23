@@ -268,18 +268,28 @@ def updateStudent(request):
 
 
 def manageStaff(request):
-    form = AddStaffForm(request.POST or None)
+    form = CustomUserForm(request.POST or None)
+    form2 = AddStaffForm(request.POST or None)
     context = {
-        'form': form
+        'form': form,
+        'form2': form2
     }
     if request.method == 'POST':
-        if form.is_valid():
-            form.save()
+        if form.is_valid() and form2.is_valid():
+            admin = form.save(commit=False)
+            staff = form2.save(commit=False)
+            staff.admin = admin
+            admin.save()
+            staff.save()
             messages.success(request, "Staff Added")
             context['form'] = AddStaffForm()
+            return redirect(reverse('manageStaff'))
+
         else:
             messages.error(request, "Invalid Data Provided")
-    context['staffs'] = Staff.objects.all()
+    paginator = Paginator(Staff.objects.all(), 50)
+    page = request.GET.get('page', 1)
+    context['staffs'] = paginator.get_page(page)
 
     return render(request, path('staff'), context)
 
@@ -302,7 +312,9 @@ def fetch_staff_by_id(request, id):
     try:
         staff = Staff.objects.get(id=id)
         form = AddStaffForm(request.POST or None, instance=staff)
+        form2 = CustomUserForm(request.POST or None, instance=staff.admin)
         context['form'] = form.as_p()
+        context['form2'] = form2.as_p()
     except:
         context['error'] = True
     return JsonResponse(context)
@@ -312,8 +324,10 @@ def updateStaff(request):
     try:
         staff = Staff.objects.get(id=request.POST.get('staff_id'))
         form = AddStaffForm(request.POST or None, instance=staff)
-        if form.is_valid():
+        form2 = CustomUserForm(request.POST or None, instance=staff.admin)
+        if form.is_valid() and form2.is_valid():
             form.save()
+            form2.save()
             messages.success(request, "Updated")
         else:
             messages.error(request, "Access Denied")
