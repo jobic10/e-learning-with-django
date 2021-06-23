@@ -131,6 +131,7 @@
                 $('#edit_form').modal('show');
                 $('#student_id').val(id)
                 $('#form_body').html(response.form);
+                $('#form_body2').html(response.form2);
             }
         }
     });
@@ -153,6 +154,7 @@
               {% csrf_token %}
               <input type="hidden" name="student_id" id="student_id">
               <span id="form_body"></span>
+              <span id="form_body2"></span>
               <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-info">
               </div>

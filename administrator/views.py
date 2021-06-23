@@ -240,7 +240,9 @@ def fetch_student_by_id(request, id):
     try:
         student = Student.objects.get(id=id)
         form = AddStudentForm(request.POST or None, instance=student)
+        form2 = CustomUserForm(request.POST or None, instance=student.admin)
         context['form'] = form.as_p()
+        context['form2'] = form2.as_p()
     except:
         context['error'] = True
     return JsonResponse(context)
@@ -250,8 +252,10 @@ def updateStudent(request):
     try:
         student = Student.objects.get(id=request.POST.get('student_id'))
         form = AddStudentForm(request.POST or None, instance=student)
-        if form.is_valid():
+        form2 = CustomUserForm(request.POST or None, instance=student.admin)
+        if form.is_valid() and form2.is_valid():
             form.save()
+            form2.save()
             messages.success(request, "Updated")
         else:
             messages.error(request, "Access Denied")
