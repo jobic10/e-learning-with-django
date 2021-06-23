@@ -57,7 +57,7 @@
                                   <td>{{ forloop.counter }}</td>
                                   <td>{{ staff.admin }}</td>
                                   <td>{{ staff.department }}</td>
-                                  <td><a href="#" data-id="{{ staff.id }}" class="btn edit btn-info">Edit</a> -- <a href="{% url 'delete_staff' staff.id %}" class="btn btn-danger">Delete</a> </td>
+                                  <td><a href="#" data-id="{{ staff.id }}" class="btn edit btn-info">Edit</a> -- <a  data-id="{{ staff.id }}"  href="#" class="btn delete btn-danger">Delete</a> </td>
                                 </tr>
                               {% endfor %}
                             </table>
@@ -132,6 +132,25 @@
         }
     });
   });
+  $(document).on('click', '.delete', function(e) {
+     
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to undo this!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+     })
+   .then((willDelete) => {
+     if (willDelete) {
+       var id = $(this).data('id');
+       window.location = "{% url 'delete_staff' 123 %}".replace("123",id)
+     } else {
+       swal("Action cancelled!");
+     }
+   });
+ });
+  
 });
   </script>
 {% endblock custom_js %}
