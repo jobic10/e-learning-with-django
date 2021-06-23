@@ -48,34 +48,6 @@
 
 
 
-{% block custom_js %}
-  <script>
-    $(function() {
-    $(document).on('click', '.edit', function(e) {
-      e.preventDefault();
-      var id = $(this).data('id');
-      $.ajax({
-        type: 'GET',
-        url: '{% url "fetch_session_by_id" 123 %}'.replace('123', id),
-        dataType: 'json',
-        success: function(response) {
-          console.log(response)
-            if (response.error) {
-              swal("Error", "Access Denied", "error");
-          
-                toastr.error(errmsg, "Preview Error")
-            } else {
-                $('#edit_form').modal('show');
-                $('#session_id').val(id)
-                $('#form_body').html(response.form);
-            }
-        }
-    });
-  });
-});
-  </script>
-{% endblock custom_js %}
-
 {% block modal %}
 <div class="modal fade" id="edit_form">
   <div class="modal-dialog">
@@ -102,3 +74,4 @@
   </div>
 </div>
 {% endblock modal %}
+
