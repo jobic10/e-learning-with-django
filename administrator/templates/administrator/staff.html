@@ -49,18 +49,14 @@
                               <tr>
                                 <th>SN</th>
                                 <th>Name</th>
-                                <th>Reg. No</th>
                                 <th>Department</th>
-                                <th>DOB</th>
                                 <th>Action</th>
                               </tr>
                               {% for staff in staffs  %}
                                 <tr>
                                   <td>{{ forloop.counter }}</td>
                                   <td>{{ staff.admin }}</td>
-                                  <td>{{ staff.regno }}</td>
                                   <td>{{ staff.department }}</td>
-                                  <td>{{ staff.dob }}</td>
                                   <td><a href="#" data-id="{{ staff.id }}" class="btn edit btn-info">Edit</a> -- <a href="{% url 'delete_staff' staff.id %}" class="btn btn-danger">Delete</a> </td>
                                 </tr>
                               {% endfor %}
