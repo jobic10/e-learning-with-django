@@ -139,5 +139,5 @@ administrator/migrations/*
 account/migrations/*
 student/migrations/*
 staff/migrations/*
-static/
+# static/
 README.md
