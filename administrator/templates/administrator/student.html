@@ -44,11 +44,12 @@
                     <div class="card-body py-3 px-4">
                         <p class="m-0 survey-head">Previously Entered Students</p>
                         <hr>
-                        <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                        <div class="d-flex justify-content-between align-items-end flot-bar-wrapper table-responsive">
                             <table class="table-striped table">
                               <tr>
                                 <th>SN</th>
                                 <th>Name</th>
+                                <th>Email</th>
                                 <th>Reg. No</th>
                                 <th>Department</th>
                                 <th>DOB</th>
@@ -58,6 +59,7 @@
                                 <tr>
                                   <td>{{ forloop.counter }}</td>
                                   <td>{{ student.admin }}</td>
+                                  <td>{{ student.admin.email }}</td>
                                   <td>{{ student.regno }}</td>
                                   <td>{{ student.department }}</td>
                                   <td>{{ student.dob }}</td>
