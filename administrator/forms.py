@@ -24,6 +24,10 @@ class AddSessionForm(FormSettings):
 
 
 class AddStudentForm(FormSettings):
+    department_list = Department.objects.filter(is_general=False)
+    department = forms.ModelChoiceField(
+        label="Choose Department", queryset=department_list, required=True)
+
     class Meta:
         model = Student
         exclude = ['admin']
@@ -34,6 +38,10 @@ class AddStudentForm(FormSettings):
 
 
 class AddStaffForm(FormSettings):
+    department_list = Department.objects.filter(is_general=False)
+    department = forms.ModelChoiceField(
+        label="Choose Department", queryset=department_list, required=True)
+
     class Meta:
         model = Staff
         exclude = ['admin']
