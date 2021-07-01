@@ -12,3 +12,8 @@ def path(html_file):
 def dashboard(request):
     context = {}
     return render(request, path("home"), context)
+
+
+def courseAllocation(request):
+    context = {}
+    return render(request, path("course_allocation"), context)
