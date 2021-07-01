@@ -287,7 +287,11 @@ def manageStaff(request):
 
         else:
             messages.error(request, "Invalid Data Provided")
-    paginator = Paginator(Staff.objects.all(), 50)
+    all_staff = Staff.objects.all()
+    if all_staff.count() > 50:
+        paginator = Paginator(all_staff, 50)
+    else:
+        paginator = Paginator(all_staff, all_staff.count())
     page = request.GET.get('page', 1)
     context['staffs'] = paginator.get_page(page)
 

@@ -18,7 +18,6 @@ def account_login(request):
 
     context = {}
     if request.method == 'POST':
-        print(request.POST)
         user = EmailBackend.authenticate(request, username=request.POST.get(
             'email'), password=request.POST.get('password'))
         if user != None:
