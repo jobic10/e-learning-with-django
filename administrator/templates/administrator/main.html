@@ -6,7 +6,15 @@
   </head>
   <body>
     <div class="container-scroller">
-     {% include "account/partials/admin_sidebar.html" %}
+      
+      {% if user.user_type == '1' %}
+          {% include "account/partials/admin_sidebar.html" %}
+      {% elif user.user_type == '2' %}
+          {% include "account/partials/staff_sidebar.html" %}
+      {% else %}
+          {% include "account/partials/student_sidebar.html" %}
+      {% endif %}
+        
       <div class="container-fluid page-body-wrapper">
         <div id="theme-settings" class="settings-panel">
           <i class="settings-close mdi mdi-close"></i>

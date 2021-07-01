@@ -1,0 +1,37 @@
+{% load static %}
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <div class="text-center sidebar-brand-wrapper d-flex align-items-center">
+    <a class="sidebar-brand brand-logo" href="../../index.html"><img src="{% static 'assets/images/logo.svg' %}" alt="logo" /></a>
+    <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="../../index.html"><img src="{% static 'assets/images/logo-mini.svg' %}" alt="logo" /></a>
+  </div>
+  <ul class="nav">
+    <li class="nav-item nav-profile">
+      <a href="#" class="nav-link">
+        <div class="nav-profile-image">
+          <img src="{% static 'assets/images/faces/face1.jpg' %}" alt="profile" />
+          <span class="login-status online"></span>
+          <!--change to offline or busy as needed-->
+        </div>
+        <div class="nav-profile-text d-flex flex-column pr-3 text-wrap">
+          <span class="font-weight-medium mb-2">{{ request.user }}</span>
+          <span class="font-weight-normal">Online</span>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'adminDashboard' %}">
+        <i class="mdi mdi-home menu-icon"></i>
+        <span class="menu-title">Dashboard</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'manageCourse' %}">
+        <i class="mdi mdi-calendar menu-icon"></i>
+        <span class="menu-title">Course Allocation</span>
+      </a>
+    </li>
+ 
+    
+  </ul>
+</nav>
