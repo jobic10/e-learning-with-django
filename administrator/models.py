@@ -17,6 +17,9 @@ class Course(models.Model):
     unit = models.IntegerField()
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class Session(models.Model):
     year = models.CharField(max_length=10, unique=True)  # E.g. 2020/2021
