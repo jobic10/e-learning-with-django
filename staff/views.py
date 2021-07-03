@@ -19,10 +19,17 @@ def dashboard(request):
 def courseAllocation(request):
     staff = request.user.staff
     my_department = staff.department
+    this_session = SESSION(request)['ACADEMIC_SESSION']
     courses = Course.objects.filter(
         Q(department__is_general=True) | Q(department=my_department),)
+    my_courses = CourseAllocation.objects.filter(
+        staff=staff, approved=True, session=this_session)
+    is_registered = CourseAllocation.objects.filter(
+        session=this_session, staff=staff, approved=True).exists()
     context = {
         'courses': courses,
+        'selected_courses': my_courses,
+        'registered': is_registered
     }
     if request.method == 'POST':
         submitted_courses = request.POST.getlist('courses[]')
@@ -32,14 +39,15 @@ def courseAllocation(request):
             messages.error(request, "Please select at least one course")
             return redirect(reverse('courseAllocation'))
         try:
-            this_session = SESSION(request)['ACADEMIC_SESSION']
             for course_id in submitted_courses:
                 this_id = int(course_id)
                 this_course = Course.objects.get(id=this_id)
-                CourseAllocation(staff=staff, course=this_course,
-                                 session=this_session).save()
+                if not CourseAllocation.objects.filter(staff=staff, course=this_course, session=this_session).exists():
+                    CourseAllocation(
+                        staff=staff, course=this_course, session=this_session).save()
                 insert += 1
         except Exception as e:
+            print(e)
             messages.error(
                 request, "Please select appropriate course(s) " + str(e))
             return redirect(reverse('courseAllocation'))
