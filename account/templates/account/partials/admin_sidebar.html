@@ -48,12 +48,27 @@
         <span class="menu-title">Student</span>
       </a>
     </li>
+
     <li class="nav-item">
-      <a class="nav-link" href="{% url 'manageStaff' %}">
-        <i class="mdi mdi-account-multiple  menu-icon"></i>
+      <a class="nav-link" data-toggle="collapse" href="#staff_expand" aria-expanded="false" aria-controls="staff_expand">
+        <i class="mdi mdi-account-multiple menu-icon"></i>
         <span class="menu-title">Staff</span>
+        <i class="menu-arrow"></i>
       </a>
+      <div class="collapse" id="staff_expand">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'manageStaff' %}">Manage</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../pages/ui-features/dropdowns.html">Course Allocation</a>
+          </li>
+       
+        </ul>
+      </div>
     </li>
+
+  
     <li class="nav-item">
       <a class="nav-link" href="{% url 'siteSettings' %}">
         <i class="mdi mdi-settings   menu-icon"></i>

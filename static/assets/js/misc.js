@@ -11,7 +11,7 @@
     //Active class can be hard coded directly in html file also as required
 
     function addActiveClass(element) {
-      if (current === "administrator" || current === 'student' || current === 'staff') {
+      if (current === "administrator" ) {
         //for root url
         if (element.attr('href').indexOf("") !== 0) {
           element.parents('.nav-item').last().addClass('active');
@@ -21,6 +21,7 @@
           }
         }
       } else {
+        
         //for other url
         if (element.attr('href').indexOf(current) !== -1) {
           // alert(element.attr('href').indexOf(current));

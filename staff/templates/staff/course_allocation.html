@@ -4,7 +4,7 @@
 {% block content %}
   <div class="content-wrapper pb-0">
     <div class="page-header flex-wrap">
-      <h3 class="mb-0"> Course Allocation
+      <h3 class="mb-0"> Course Allocation ({{ ACADEMIC_SESSION }})
       </h3>
       
     </div>
@@ -13,11 +13,16 @@
         <div class="card">
           <div class="card-body">
             <div class="row">
+              {% if not registered %}
+              <div class="col-md-12">
+                <p class="alert text-center alert-info">Selected courses would need to be reviewed by the administrator! After submission, you will not be allowed to select courses thereafter. So, you are advised to select <span><b>all</b></span> preferred courses. </p>
+              </div>
+              
               <div class="col-sm-3">
                 <div class="card mb-3 mb-sm-0">
                   <div class="card-body py-3 px-4">
                     <form action="" method="post">
-                      <p class="m-0 survey-head">Fill all required fields</p>
+                      <p class="m-0 survey-head">Select courses</p>
                       <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                         <div>
                           
@@ -42,10 +47,12 @@
                   </div>
                 </div>
                 </div>
-                <div class="col-sm-9">
+              {% endif %}
+
+                <div class="col-sm-{% if registered %}12{% else %}9{% endif %}">
                   <div class="card mb-3 mb-sm-0">
                     <div class="card-body py-3 px-4">
-                        <p class="m-0 survey-head">Previously Entered Courses</p>
+                        <p class="m-0 survey-head">Previously Selected Courses</p>
                         <hr>
                         <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                             <table class="table-striped table">
