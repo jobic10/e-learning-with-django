@@ -363,12 +363,14 @@ def siteSettings(request):
 
 
 def viewCourseAllocations(request):
+    page = request.GET.get('page', 1)
     this_session = get_session()
     allocations = CourseAllocation.objects.filter(
         session=this_session, approved=None)
+    paginator = Paginator(allocations, 50)
 
     context = {
-        'allocations': allocations
+        'allocations': paginator.get_page(page)
     }
     return render(request, path('view_course_allocation'), context)
 
