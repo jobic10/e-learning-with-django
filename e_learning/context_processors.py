@@ -1,6 +1,4 @@
-from django.conf import settings
 from administrator.models import Settings
-import datetime
 
 
 def SESSION(request):
