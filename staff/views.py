@@ -34,14 +34,14 @@ def courseAllocation(request):
             messages.error(request, "Please select at least one course")
             return redirect(reverse('courseAllocation'))
         try:
+            this_session = SESSION(request)['ACADEMIC_SESSION']
             for course_id in submitted_courses:
                 this_id = int(course_id)
                 this_course = Course.objects.get(id=this_id)
                 CourseAllocation(staff=staff, course=this_course,
-                                 session=SESSION(request)['ACADEMIC_SESSION']).save()
+                                 session=this_session).save()
                 insert += 1
         except Exception as e:
-            print("Error -> ", e)
             messages.error(
                 request, "Please select appropriate course(s) " + str(e))
             return redirect(reverse('courseAllocation'))
