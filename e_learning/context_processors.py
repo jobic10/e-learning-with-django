@@ -1,12 +1,8 @@
 from administrator.models import Settings
+from .functions import get_session
 
 
 def SESSION(request):
-    session = None
-    try:
-        settings = Settings.objects.all()[0]
-        session = settings.current_academic_session
-    except Exception as e:
-        pass
+    session = get_session()
     context = {'ACADEMIC_SESSION': session}
     return context
