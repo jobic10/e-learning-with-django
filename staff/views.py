@@ -1,7 +1,8 @@
 from django.shortcuts import render, reverse, redirect
 from django.contrib import messages
-
-
+from administrator.models import Course
+from django.db.models import Q
+from e_learning.context_processors import SESSION
 # Create your views here.
 
 
@@ -15,5 +16,13 @@ def dashboard(request):
 
 
 def courseAllocation(request):
-    context = {}
+    staff = request.user.staff
+    my_department = staff.department
+    courses = Course.objects.filter(
+        Q(department__is_general=True) | Q(department=my_department),)
+    context = {
+        'courses': courses,
+    }
+    if request.method == 'POST':
+        pass
     return render(request, path("course_allocation"), context)

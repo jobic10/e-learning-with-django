@@ -13,4 +13,6 @@ class CourseAllocation(models.Model):
     staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     session = models.ForeignKey(Session, null=True, on_delete=models.SET_NULL)
-    approved = models.BooleanField(default=False)  # * Approved by admin
+    approved = models.BooleanField(null=True)  # * To be reviewed by admin
+    registered_date = models.DateTimeField(auto_now_add=True)
+    response_date = models.DateTimeField(auto_now=True)
