@@ -27,8 +27,6 @@ def courseAllocation(request):
     if request.method == 'POST':
         submitted_courses = request.POST.getlist('courses[]')
         course_id_length = len(submitted_courses)
-        print("Courses --->> ", submitted_courses)
-        print("Type --->> ", type(submitted_courses[0]))
         insert = 0
         if course_id_length < 1:
             messages.error(request, "Please select at least one course")
