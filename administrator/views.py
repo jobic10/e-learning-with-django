@@ -4,6 +4,8 @@ from account.forms import CustomUserForm
 from django.contrib import messages
 from django.http import JsonResponse
 from django.core.paginator import Paginator
+from staff.models import CourseAllocation
+from e_learning.functions import get_session
 # Administrative Functions
 
 
@@ -358,3 +360,30 @@ def siteSettings(request):
         else:
             messages.error(request, "Site Settings Could Not Be Updated")
     return render(request, path('settings'), context)
+
+
+def viewCourseAllocations(request):
+    this_session = get_session()
+    allocations = CourseAllocation.objects.filter(
+        session=this_session, approved=None)
+
+    context = {
+        'allocations': allocations
+    }
+    return render(request, path('view_course_allocation'), context)
+
+
+def approve_reject_course_allocation(request, this_id, response):
+    this_session = get_session()
+    try:
+        if (response != 'rejected' and response != 'approved') or this_id is None:
+            raise Exception("Access Denied")
+
+        course_allocation = CourseAllocation.objects.get(id=this_id)
+        if response == 'rejected':
+            pass
+        pass
+        messages.success(request, "Course allocation " + str(response))
+    except:
+        messages.error(request, "Access Denied!")
+    return redirect(reverse('viewCourseAllocations'))

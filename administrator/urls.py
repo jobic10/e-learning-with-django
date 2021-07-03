@@ -35,6 +35,10 @@ urlpatterns = [
     path('staff/get/<int:id>', views.fetch_staff_by_id,
          name='fetch_staff_by_id'),
     path('staff/update', views.updateStaff, name='updateStaff'),
+    path('staff/course/allocation', views.viewCourseAllocations,
+         name='viewCourseAllocations'),
+    path('staff/course/allocation/response/<int:this_id>/<str:response>',
+         views.approve_reject_course_allocation, name='responseCourseAllocation'),
 
     #     Start of Student
     path('student/add', views.manageStudent, name="manageStudent"),
@@ -46,4 +50,5 @@ urlpatterns = [
 
     #     Start of Settings
     path('site/settings/', views.siteSettings, name='siteSettings'),
+
 ]

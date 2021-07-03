@@ -1,0 +1,141 @@
+{% extends 'administrator/main.html' %}
+{% load static %}
+{% block content %}
+  <div class="content-wrapper pb-0">
+    <div class="page-header flex-wrap">
+      <h3 class="mb-0"> Add Course
+      </h3>
+      
+    </div>
+    <div class="row">
+      <div class="col-xl-12 stretch-card grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12">
+                  <div class="card mb-3 mb-sm-0">
+                    <div class="card-body py-3 px-4">
+                        <p class="m-0 survey-head">Course Allocation Request For {{ ACADEMIC_SESSION }} Academic Session</p>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <table class="table-striped table">
+                              <caption>
+                                Approving a course for teacher automatically deletes any other requests for the same approved course.
+                              </caption>
+                              <tr>
+                                <th>SN</th>
+                                <th>Staff</th>
+                                <th>Name</th>
+                                <th>Code</th>
+                                <th>Unit</th>
+                                <th>Department</th>
+                                <th>Action</th>
+                              </tr>
+                              {% for allocation in allocations  %}
+                                <tr>
+                                  <td>{{ forloop.counter }}</td>
+                                  <td>{{ allocation.staff }}</td>
+                                  <td>{{ allocation.course }}</td>
+                                  <td>{{ allocation.course.code }}</td>
+                                  <td>{{ allocation.course.unit }}</td>
+                                  <td>{{ allocation.course.department }}</td>
+                                  <td><a href="#" data-id="{{ allocation.id }}" data-response='approved' class="btn reply btn-success">Approve</a> -- <a data-response='rejected' data-id="{{ allocation.id }}"  href="#" class="btn reply btn-danger">Reject</a> </td>
+                                </tr>
+                              {% endfor %}
+                            </table>
+                          </div>
+                          <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center ">
+                           
+                              {% if allocations.has_previous %}
+                              <li class="page-item"><a class="page-link" href="?page={{ allocations.previous_page_number }}">&laquo;</a></li>
+                                      {% else %}
+                                      <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">&laquo;</a>
+                                      </li>
+                              {% endif %}
+                            
+                              {% for page in allocations.paginator.page_range %}
+                              
+                              {% if page <= allocations.number|add:2 and page >= allocations.number|add:-2 %}
+                                  <li class="page-item {% if allocations.number == page  %}active{% endif %}"><a class="page-link" href="?page={{page }}">{{ page }}</a></li>
+                                  {% endif %}
+                              {% endfor %}
+                          
+                              {% if allocations.has_next %}
+                              <li class="page-item"><a class="page-link" href="?page={{ allocations.next_page_number }}">&raquo;</a></li>
+                                      {% else %}
+                                      <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">&raquo;</a>
+                                      </li>
+                              {% endif %}
+
+                           </ul>
+                          </nav>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- main-panel ends -->
+{% endblock content %}
+
+
+
+{% block custom_js %}
+  <script>
+    $(function() {
+
+   $(document).on('click', '.reply', function(e) {
+     
+     swal({
+       title: "Are you sure?",
+       text: "Once deleted, you will not be able to undo this!",
+       icon: "warning",
+       buttons: true,
+       dangerMode: true,
+      })
+    .then((willProceed) => {
+      if (willProceed) {
+        var id = $(this).data('id');
+        var response = $(this).data('response');
+        window.location = "{% url 'responseCourseAllocation' 123 'xyz' %}".replace("123",id).replace('xyz', response);
+      } 
+    });
+  });
+});
+  </script>
+{% endblock custom_js %}
+
+{% block modal %}
+<div class="modal fade" id="edit_form">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title float-left"><b>Update Course</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form action="{% url 'updateCourse' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="course_id" id="course_id">
+              <span id="form_body"></span>
+              <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-info">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-flat pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock modal %}

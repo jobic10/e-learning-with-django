@@ -8,6 +8,9 @@ class Staff(models.Model):
         Department, on_delete=models.SET_NULL, null=True)
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return str(self.admin)
+
 
 class CourseAllocation(models.Model):
     staff = models.ForeignKey(Staff, on_delete=models.CASCADE)

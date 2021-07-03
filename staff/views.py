@@ -3,7 +3,7 @@ from django.contrib import messages
 from administrator.models import Course
 from django.db.models import Q
 from .models import CourseAllocation
-from e_learning.context_processors import SESSION
+from e_learning.functions import get_session
 # Create your views here.
 
 
@@ -19,7 +19,7 @@ def dashboard(request):
 def courseAllocation(request):
     staff = request.user.staff
     my_department = staff.department
-    this_session = SESSION(request)['ACADEMIC_SESSION']
+    this_session = get_session()
     courses = Course.objects.filter(
         Q(department__is_general=True) | Q(department=my_department),)
     my_courses = CourseAllocation.objects.filter(
