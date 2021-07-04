@@ -43,6 +43,12 @@ def courseAllocation(request):
             for course_id in submitted_courses:
                 this_id = int(course_id)
                 this_course = Course.objects.get(id=this_id)
+                # Check if this course is available for the staff
+                if this_course.department != my_department and not this_course.department.is_general:
+                    messages.error(
+                        request, "Sorry, this course is not available for you")
+                    return redirect(reverse('courseAllocation'))
+
                 if CourseAllocation.objects.filter(course=this_course, session=this_session, approved=True).exists():
                     messages.error(request, "Sorry, " + str(this_course) +
                                    " has already been approved for a lecturer")
