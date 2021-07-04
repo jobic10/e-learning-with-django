@@ -43,6 +43,11 @@ def courseAllocation(request):
             for course_id in submitted_courses:
                 this_id = int(course_id)
                 this_course = Course.objects.get(id=this_id)
+                if CourseAllocation.objects.filter(course=this_course, session=this_session, approved=True).exists():
+                    messages.error(request, "Sorry, " + str(this_course) +
+                                   " has already been approved for a lecturer")
+                    return redirect(reverse('courseAllocation'))
+
                 if not CourseAllocation.objects.filter(staff=staff, course=this_course, session=this_session).exists():
                     CourseAllocation(
                         staff=staff, course=this_course, session=this_session).save()
