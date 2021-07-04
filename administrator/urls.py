@@ -35,7 +35,7 @@ urlpatterns = [
     path('staff/get/<int:id>', views.fetch_staff_by_id,
          name='fetch_staff_by_id'),
     path('staff/update', views.updateStaff, name='updateStaff'),
-    path('staff/course/allocation', views.viewCourseAllocations,
+    path('staff/allocation', views.viewCourseAllocations,
          name='viewCourseAllocations'),
     path('course/staff/allocation/response/<int:this_id>/<str:response>',
          views.approve_reject_course_allocation, name='responseCourseAllocation'),

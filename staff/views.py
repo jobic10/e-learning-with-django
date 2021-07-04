@@ -1,9 +1,10 @@
 from django.shortcuts import render, reverse, redirect
 from django.contrib import messages
 from administrator.models import Course
-from django.db.models import Q
+from django.db.models import Q, OuterRef, Exists
 from .models import CourseAllocation
 from e_learning.functions import get_session
+
 # Create your views here.
 
 
@@ -20,8 +21,8 @@ def courseAllocation(request):
     staff = request.user.staff
     my_department = staff.department
     this_session = get_session()
-    courses = Course.objects.filter(
-        Q(department__is_general=True) | Q(department=my_department),)
+    courses = Course.objects.filter(~Exists(CourseAllocation.objects.filter(
+        approved=True, course=OuterRef('courseallocation__course'), session=this_session)), Q(department__is_general=True) | Q(department=my_department))
     my_courses = CourseAllocation.objects.filter(
         staff=staff, approved=True, session=this_session)
     is_registered = CourseAllocation.objects.filter(
