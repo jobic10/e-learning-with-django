@@ -1,0 +1,166 @@
+{% extends 'administrator/main.html' %}
+{% load extra_tags %}
+{% load static %}
+{% block content %}
+  <div class="content-wrapper pb-0">
+    <div class="page-header flex-wrap">
+      <h3 class="mb-0"> Course Allocation ({{ ACADEMIC_SESSION }})
+      </h3>
+      
+    </div>
+    <div class="row">
+      <div class="col-xl-12 stretch-card grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              {% if not registered %}
+              <div class="col-md-12">
+                <p class="alert text-center alert-info">Selected courses would need to be reviewed by the administrator! After submission, you will not be allowed to select courses thereafter. So, you are advised to select <span><b>all</b></span> preferred courses. </p>
+              </div>
+              
+              <div class="col-sm-3">
+                <div class="card mb-3 mb-sm-0">
+                  <div class="card-body py-3 px-4">
+                    <form action="" method="post">
+                      <p class="m-0 survey-head">Select courses</p>
+                      <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                        <div>
+                          
+                          {% csrf_token %}
+
+                            {% for course in courses %}
+                            <div class="form-group">
+                              <div class="form-check">
+                                <label class="form-check-label" for="id_{{ course.id }}">
+                                  <input type="checkbox" class="form-check-input" value="{{ course.id }}" name="courses[]" id="id_{{ course.id }}"> {{ course.name }} <i class="input-helper"></i>
+                                </label>
+                              </div>
+                            </div>  
+                            {% endfor %} 
+                              
+                            <div class="form-group">
+                            <input type="submit" value="Submit" class="btn btn-info">
+                            </div>  
+                        </div>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+                </div>
+              {% endif %}
+
+                <div class="col-sm-{% if registered %}12{% else %}9{% endif %}">
+                  <div class="card mb-3 mb-sm-0">
+                    <div class="card-body py-3 px-4">
+                        <p class="m-0 survey-head">Your Courses</p>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <table class="table-striped table">
+                              <tr>
+                                <th>SN</th>
+                                <th>Name</th>
+                                <th>Code</th>
+                                <th>Department</th>
+                                <th>Unit</th>
+                                <th>No. of Students Enrolled</th>
+                              </tr>
+                              {% for selected_course in selected_courses  %}
+                                <tr>
+                                  <td>{{ forloop.counter }}</td>
+                                  <td>{{ selected_course.course.name }}</td>
+                                  <td>{{ selected_course.course.code }}</td>
+                                  <td>{{ selected_course.course.department }}</td>
+                                  <td>{{ selected_course.course.unit }}</td>
+                                  <td> --- </td>
+                                </tr>
+                              {% endfor %}
+                            </table>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- main-panel ends -->
+{% endblock content %}
+
+
+
+{% block custom_js %}
+  <script>
+    $(function() {
+    $(document).on('click', '.edit', function(e) {
+      e.preventDefault();
+      var id = $(this).data('id');
+      $.ajax({
+        type: 'GET',
+        url: '{% url "fetch_course_by_id" 123 %}'.replace('123', id),
+        dataType: 'json',
+        success: function(response) {
+          console.log(response)
+            if (response.error) {
+              swal("Error", "Access Denied", "error");
+          
+                toastr.error(errmsg, "Preview Error")
+            } else {
+                $('#edit_form').modal('show');
+                $('#course_id').val(id)
+                $('#form_body').html(response.form);
+            }
+        }
+    });
+  });
+   $(document).on('click', '.delete', function(e) {
+     
+     swal({
+       title: "Are you sure?",
+       text: "Once deleted, you will not be able to undo this!",
+       icon: "warning",
+       buttons: true,
+       dangerMode: true,
+      })
+    .then((willDelete) => {
+      if (willDelete) {
+        var id = $(this).data('id');
+        window.location = "{% url 'delete_course' 123 %}".replace("123",id)
+      } else {
+        swal("Action cancelled!");
+      }
+    });
+  });
+});
+  </script>
+{% endblock custom_js %}
+
+{% block modal %}
+<div class="modal fade" id="edit_form">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title float-left"><b>Update Course</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form action="{% url 'updateCourse' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="course_id" id="course_id">
+              <span id="form_body"></span>
+              <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-info">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-flat pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock modal %}

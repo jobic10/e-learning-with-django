@@ -12,8 +12,9 @@ class Student(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
 
-class Registration(models.Model):
+class CourseRegistration(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    approved = models.BooleanField(null=True)  # By course lecturer
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     first_test = models.FloatField(default=0)  # Max 20
