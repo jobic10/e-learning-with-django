@@ -381,10 +381,17 @@ def approve_reject_course_allocation(request, this_id, response):
         if (response != 'rejected' and response != 'approved') or this_id is None:
             raise Exception("Access Denied")
 
-        course_allocation = CourseAllocation.objects.get(id=this_id)
-        if response == 'rejected':
-            pass
-        pass
+        course_allocation = CourseAllocation.objects.get(
+            id=this_id, session=this_session)
+        course = course_allocation.course
+        if response == 'approved':
+            course_allocation.approved = True
+            course_allocation.save()
+            # Now, delete all requests for this course
+            CourseAllocation.objects.filter(
+                session=this_session, course=course, approved=None).delete()
+        else:
+            course_allocation.delete()
         messages.success(request, "Course allocation " + str(response))
     except:
         messages.error(request, "Access Denied!")

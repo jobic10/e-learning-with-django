@@ -37,7 +37,7 @@ urlpatterns = [
     path('staff/update', views.updateStaff, name='updateStaff'),
     path('staff/course/allocation', views.viewCourseAllocations,
          name='viewCourseAllocations'),
-    path('staff/course/allocation/response/<int:this_id>/<str:response>',
+    path('course/staff/allocation/response/<int:this_id>/<str:response>',
          views.approve_reject_course_allocation, name='responseCourseAllocation'),
 
     #     Start of Student
