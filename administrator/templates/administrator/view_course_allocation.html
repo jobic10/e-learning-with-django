@@ -41,7 +41,12 @@
                                   <td>{{ allocation.course.department }}</td>
                                   <td><a href="#" data-id="{{ allocation.id }}" data-response='approved' class="btn reply btn-success">Approve</a> -- <a data-response='rejected' data-id="{{ allocation.id }}"  href="#" class="btn reply btn-danger">Reject</a> </td>
                                 </tr>
+                                {% empty %}
+                                <tr>
+                                  <td colspan="7" class="alert alert-info">No pending course allocation request!</td>
+                                </tr>
                               {% endfor %}
+
                             </table>
                           </div>
                           <nav aria-label="Page navigation example">
