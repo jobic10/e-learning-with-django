@@ -209,6 +209,7 @@ def manageStudent(request):
             admin = form.save(commit=False)
             student = form2.save(commit=False)
             student.admin = admin
+            admin.user_type = 3
             admin.save()
             student.save()
             messages.success(request, "Student Added")
@@ -281,6 +282,7 @@ def manageStaff(request):
             admin = form.save(commit=False)
             staff = form2.save(commit=False)
             staff.admin = admin
+            admin.user_type = 2
             admin.save()
             staff.save()
             messages.success(request, "Staff Added")
