@@ -11,6 +11,9 @@ class Student(models.Model):
     dob = models.DateField()
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return str(self.admin)
+
 
 class CourseRegistration(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
