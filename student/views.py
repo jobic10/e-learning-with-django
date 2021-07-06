@@ -22,11 +22,12 @@ def courseRegistration(request):
     my_department = student.department
     this_session = get_session()
     courses = Course.objects.filter(~Exists(CourseRegistration.objects.filter(
-        approved=True, course=OuterRef('courseregistration__course'), session=this_session)), Q(department__is_general=True) | Q(department=my_department))
+        course=OuterRef('courseregistration__course'), session=this_session, student=student)), Q(department__is_general=True) | Q(department=my_department))
     my_courses = CourseRegistration.objects.filter(
         student=student, approved=True, session=this_session)
     is_registered = CourseRegistration.objects.filter(
         session=this_session, student=student, approved=True).exists()
+    print(courses)
     context = {
         'courses': courses,
         'selected_courses': my_courses,
