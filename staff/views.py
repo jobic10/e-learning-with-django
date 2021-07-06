@@ -60,7 +60,6 @@ def courseAllocation(request):
                         staff=staff, course=this_course, session=this_session).save()
                 insert += 1
         except Exception as e:
-            print(e)
             messages.error(
                 request, "Please select appropriate course(s) " + str(e))
             return redirect(reverse('courseAllocation'))
@@ -112,6 +111,5 @@ def courseAppResponse(request, this_id, status):
                 request, "Action completed. Course " + str(status))
 
         except Exception as e:
-            print(e, "<< Error")
             messages.error(request, "You do not have access to this resource")
     return redirect(reverse('courseStatus'))
