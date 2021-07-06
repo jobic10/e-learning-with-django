@@ -101,7 +101,6 @@ def courseAppResponse(request, this_id, status):
             this_session = get_session()
             CourseAllocation.objects.get(
                 staff=staff, course_id=course_reg.course_id, approved=True, session=this_session)
-            return None
             if status == 'rejected':
                 course_reg.delete()
             else:
