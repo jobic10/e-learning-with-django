@@ -4,6 +4,7 @@ from administrator.models import Course
 from django.db.models import Q, OuterRef, Exists
 from .models import CourseAllocation
 from e_learning.functions import get_session
+from student.models import CourseRegistration
 
 # Create your views here.
 
@@ -74,3 +75,43 @@ def courseAllocation(request):
         return redirect(reverse('courseAllocation'))
 
     return render(request, path("course_allocation"), context)
+
+
+def courseStatus(request):
+    staff = request.user.staff
+    this_session = get_session()
+    my_department = staff.department
+    my_courses = CourseAllocation.objects.filter(
+        staff=staff, approved=True, session=this_session)
+    courses = CourseRegistration.objects.filter(
+        course__in=my_courses.values_list('course_id'), approved=None, session=this_session)
+    context = {
+        'courses': courses
+    }
+    return render(request, path("course_status"), context)
+
+
+def courseAppResponse(request, this_id, status):
+    staff = request.user.staff
+    my_department = staff.department
+    if status != 'approved' and status != 'rejected':
+        messages.error(request, "Access Denied")
+    else:
+        try:
+            course_reg = CourseRegistration.objects.get(id=this_id)
+            this_session = get_session()
+            CourseAllocation.objects.get(
+                staff=staff, course_id=course_reg.course_id, approved=True, session=this_session)
+            return None
+            if status == 'rejected':
+                course_reg.delete()
+            else:
+                course_reg.approved = True
+                course_reg.save()
+            messages.success(
+                request, "Action completed. Course " + str(status))
+
+        except Exception as e:
+            print(e, "<< Error")
+            messages.error(request, "You do not have access to this resource")
+    return redirect(reverse('courseStatus'))

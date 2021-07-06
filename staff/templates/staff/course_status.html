@@ -1,0 +1,84 @@
+{% extends 'administrator/main.html' %}
+{% load extra_tags %}
+{% load static %}
+{% block content %}
+  <div class="content-wrapper pb-0">
+    <div class="page-header flex-wrap">
+      <h3 class="mb-0"> Course Allocation ({{ ACADEMIC_SESSION }})
+      </h3>
+      
+    </div>
+    <div class="row">
+      <div class="col-xl-12 stretch-card grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <p class="alert text-center alert-info">Action performed cannot be undone. Approved students would be able to access course contents thereafter. </p>
+              </div>
+           
+                <div class="col-sm-12">
+                  <div class="card mb-3 mb-sm-0">
+                    <div class="card-body py-3 px-4">
+                        <p class="m-0 survey-head">Your Courses</p>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <table class="table-striped table">
+                              <tr>
+                                <th>SN</th>
+                                <th>Student Name</th>
+                                <th>Course Name / Code</th>
+                                <th>Department</th>
+                                <th>Unit</th>
+                                <th>Action</th>
+                              </tr>
+                              {% for course in courses  %}
+                                <tr>
+                                  <td>{{ forloop.counter }}</td>
+                                  <td>{{ course.student }}</td>
+                                  <td>{{ course.course.name }}/{{ course.course.code }}</td>
+                                  <td>{{ course.course.department }}</td>
+                                  <td>{{ course.course.unit }}</td>
+                                  <td><a href="#" data-id="{{ course.id }}" data-response='approved' class="btn reply btn-success">Approve {{ course.id }}</a> -- <a data-response='rejected' data-id="{{ course.id }}"  href="#" class="btn reply btn-danger">Reject</a> </td>
+                                </tr>
+                              {% endfor %}
+                            </table>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- main-panel ends -->
+{% endblock content %}
+
+{% block custom_js %}
+  <script>
+    $(function() {
+
+   $(document).on('click', '.reply', function(e) {
+     
+     swal({
+       title: "Are you sure?",
+       text: "This action cannot be undo!",
+       icon: "warning",
+       buttons: true,
+       dangerMode: true,
+      })
+    .then((willProceed) => {
+      if (willProceed) {
+        var id = $(this).data('id');
+        var response = $(this).data('response');
+        window.location = "{% url 'courseAppResponse' 123 'xyz' %}".replace("123",id).replace('xyz', response);
+      } 
+    });
+  });
+});
+  </script>
+{% endblock custom_js %}
