@@ -62,7 +62,7 @@
                                 <th>Code</th>
                                 <th>Department</th>
                                 <th>Unit</th>
-                                <th>No. of Students Enrolled</th>
+                                <th>Stream</th>
                               </tr>
                               {% for selected_course in selected_courses  %}
                                 <tr>
@@ -71,7 +71,7 @@
                                   <td>{{ selected_course.course.code }}</td>
                                   <td>{{ selected_course.course.department }}</td>
                                   <td>{{ selected_course.course.unit }}</td>
-                                  <td> --- </td>
+                                  <td> {{ selected_course.id }} </td>
                                 </tr>
                               {% endfor %}
                             </table>
