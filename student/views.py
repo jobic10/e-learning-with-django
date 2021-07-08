@@ -27,7 +27,6 @@ def courseRegistration(request):
         student=student, approved=True, session=this_session)
     is_registered = CourseRegistration.objects.filter(
         session=this_session, student=student, approved=True).exists()
-    print(courses)
     context = {
         'courses': courses,
         'selected_courses': my_courses,
@@ -53,7 +52,6 @@ def courseRegistration(request):
                         student=student, course=this_course, session=this_session).save()
                 insert += 1
         except Exception as e:
-            print(e)
             messages.error(
                 request, "Please select appropriate course(s) " + str(e))
             return redirect(reverse('courseAllocation'))
