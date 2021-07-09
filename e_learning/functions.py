@@ -14,7 +14,7 @@ def get_session():
 
 
 def encrypt(string):
-    return cryptocode.encrypt(string, settings.SECRET_KEY)
+    return cryptocode.encrypt(str(string), settings.SECRET_KEY)
 
 
 def decrypt(string):

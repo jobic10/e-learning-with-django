@@ -15,7 +15,7 @@
             <div class="row">
               {% if not registered %}
               <div class="col-md-12">
-                <p class="alert text-center alert-info">Selected courses would need to be reviewed by the course teacher! After submission, you will not be allowed to select courses thereafter. So, you are advised to select <span><b>all</b></span> preferred courses. </p>
+                <p class="alert text-center alert-info">Selected courses would need to be reviewed by the course lecturer! After submission, you will not be allowed to select courses thereafter. So, you are advised to select <span><b>all</b></span> preferred courses. </p>
               </div>
               
               <div class="col-sm-3">
@@ -58,8 +58,8 @@
                             <table class="table-striped table">
                               <tr>
                                 <th>SN</th>
-                                <th>Name</th>
-                                <th>Code</th>
+                                <th>Name/Code</th>
+                                <th>Lecturer</th>
                                 <th>Department</th>
                                 <th>Unit</th>
                                 <th>Stream</th>
@@ -67,11 +67,11 @@
                               {% for selected_course in selected_courses  %}
                                 <tr>
                                   <td>{{ forloop.counter }}</td>
-                                  <td>{{ selected_course.course.name }}</td>
-                                  <td>{{ selected_course.course.code }}</td>
+                                  <td>{{ selected_course.course.name }} / {{ selected_course.course.code }}</td>
+                                  <td>{{ selected_course.course.id|lecturer }}</td>
                                   <td>{{ selected_course.course.department }}</td>
                                   <td>{{ selected_course.course.unit }}</td>
-                                  <td> {{ selected_course.id }} </td>
+                                  <td> {{ selected_course.course.id }} </td>
                                 </tr>
                               {% endfor %}
                             </table>
