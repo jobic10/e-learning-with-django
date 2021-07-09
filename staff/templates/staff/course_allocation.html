@@ -1,5 +1,5 @@
 {% extends 'administrator/main.html' %}
-{% load extra_tags %}
+{% load encrypt_tags %}
 {% load static %}
 {% block content %}
   <div class="content-wrapper pb-0">
@@ -71,7 +71,8 @@
                                   <td>{{ selected_course.course.code }}</td>
                                   <td>{{ selected_course.course.department }}</td>
                                   <td>{{ selected_course.course.unit }}</td>
-                                  <td> {{ selected_course.id }} </td>
+                                  <td> {{ selected_course.course.id|encrypt }} </td>
+                                  <td> {{ selected_course.course.id }} </td>
                                 </tr>
                               {% endfor %}
                             </table>
