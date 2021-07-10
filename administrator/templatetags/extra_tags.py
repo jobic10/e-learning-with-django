@@ -12,7 +12,6 @@ def is_checkbox(value):
 
 @register.filter(name='lecturer')
 def lecturer(value):
-    print("Value is ", value)
     lecturer = "No lecturer assigned yet"
     try:
         session = get_session()

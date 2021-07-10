@@ -1,9 +1,11 @@
 {% extends 'administrator/main.html' %}
 {% load static %}
+{% load extra_tags %}
+{% load encrypt_tags %}
 {% block content %}
   <div class="content-wrapper pb-0">
     <div class="page-header flex-wrap">
-      <h3 class="mb-0"> Course Registration ({{ ACADEMIC_SESSION }})
+      <h3 class="mb-0"> Course Registration - ({{ ACADEMIC_SESSION }})
       </h3>
       
     </div>
@@ -70,7 +72,7 @@
                                   <td>{{ selected_course.course.id|lecturer }}</td>
                                   <td>{{ selected_course.course.department }}</td>
                                   <td>{{ selected_course.course.unit }}</td>
-                                  <td> {{ selected_course.course.id }} </td>
+                                  <td> <a href="{% url 'studentClassroom' selected_course.course.id|encrypt %}" class="btn btn-info">Access</a> </td>
                                 </tr>
                               {% endfor %}
                             </table>

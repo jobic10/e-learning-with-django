@@ -5,7 +5,7 @@
 {% block content %}
   <div class="content-wrapper pb-0">
     <div class="page-header flex-wrap">
-      <h3 class="mb-0"> {{ course.course }} Stream - ({{ ACADEMIC_SESSION }})
+      <h3 class="mb-0"> {{ course.course }} || Stream || ({{ ACADEMIC_SESSION }})
       </h3>
       
     </div>
@@ -16,7 +16,7 @@
             <div class="row">
               {% if not registered %}
               <div class="col-md-12">
-                <p class="alert text-center alert-info">Course Lead Lecturer : {{ course.course.id|lecturer }}</p>
+                <p class="alert text-center alert-info"><span class="font-weight-bold">Course Lead Lecturer </span> : {{ course.course.id|lecturer }}</p>
               </div>
               
               <div class="col-sm-4">
@@ -38,13 +38,13 @@
                                 <td>{{ active_assignments }}</td>
                               </tr>
                               <tr class="table-success">
-                                <td>Active Assignments</td>
+                                <td>Expired Assignments</td>
                                 <td>{{ expired_assignments }}</td>
                               </tr>
                               <tr class="table-primary">
                                 <td>Submitted assignments</td>
                                 <td>{{ my_submission }}</td>
-                              </tr>
+                              </tr> 
                           </table>
                     </div>
                   </div>
