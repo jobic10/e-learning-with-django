@@ -8,5 +8,6 @@ urlpatterns = [
     path('course/reg/status', views.courseStatus, name="courseStatus"),
     path('course/application/response/<int:this_id>/<str:status>',
          views.courseAppResponse, name='courseAppResponse'),
+    path('classroom/<token>/', views.staffClassroom, name='staffClassroom'),
 
 ]

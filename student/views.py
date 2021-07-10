@@ -2,7 +2,7 @@ from django.shortcuts import render, reverse, redirect
 from django.contrib import messages
 from administrator.models import Course
 from django.db.models import Q, OuterRef, Exists
-from e_learning.functions import get_session, decrypt
+from e_learning.functions import get_session, validate
 from .models import CourseRegistration
 from classroom.models import Assignment, Submission
 from datetime import datetime
@@ -71,9 +71,7 @@ def courseRegistration(request):
 
 def studentClassroom(request, token):
     try:
-        token = str(token).replace('?', '/')
-        course_id = decrypt(token)
-        course_id = int(course_id)
+        course_id = validate(token)
         if course_id == False or course_id < 1 or not course_id:
             raise("Access Denied")
         session = get_session()

@@ -3,9 +3,10 @@ from django.contrib import messages
 from administrator.models import Course
 from django.db.models import Q, OuterRef, Exists
 from .models import CourseAllocation
-from e_learning.functions import get_session
+from e_learning.functions import get_session, validate
 from student.models import CourseRegistration
-
+from classroom.models import *
+from datetime import datetime
 # Create your views here.
 
 
@@ -112,3 +113,28 @@ def courseAppResponse(request, this_id, status):
         except Exception as e:
             messages.error(request, "You do not have access to this resource")
     return redirect(reverse('courseStatus'))
+
+
+def staffClassroom(request, token):
+    try:
+        course_id = validate(token)
+        if course_id == False or course_id < 1 or not course_id:
+            raise("Access Denied")
+        session = get_session()
+        staff = request.user.staff
+        course_reg = CourseAllocation.objects.get(
+            staff=staff, course_id=course_id, session=session, approved=True)
+        assignments = Assignment.objects.filter(
+            session=session, course=course_reg.course)
+        context = {
+            'course': course_reg,
+            'no_of_students': CourseRegistration.objects.filter(course=course_reg.course, approved=True, session=session).count(),
+            'no_of_assignments': assignments.count(),
+            'expired_assignments': assignments.filter(expiry_date__lt=datetime.today()).count(),
+            'active_assignments': assignments.filter(expiry_date__gt=datetime.today()).count(),
+        }
+        return render(request, path("classroom_dashboard"), context)
+    except Exception as e:
+        print(e, "Here ---<")
+        messages.error(request, "Access to this resource is denied")
+        return redirect(reverse('staffDashboard'))
