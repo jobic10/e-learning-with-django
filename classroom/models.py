@@ -10,6 +10,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 class Assignment(models.Model):
     import datetime
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    question = RichTextUploadingField()
     session = models.ForeignKey(Session, null=True, on_delete=models.SET_NULL)
     created_date = models.DateTimeField(auto_now_add=True)
     edited_date = models.DateTimeField(auto_now=True)
