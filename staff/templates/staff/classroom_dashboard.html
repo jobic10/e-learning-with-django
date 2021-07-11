@@ -16,7 +16,9 @@
             <div class="row">
               {% if not registered %}
               <div class="col-md-12">
-                <p class="alert text-center alert-info"><span class="font-weight-bold">Course Lead Lecturer </span> : {{ course.course.id|lecturer }}</p>
+                <p class="alert text-center alert-info"><span class="font-weight-bold">Course Lead Lecturer </span> : {{ course.course.id|lecturer }}. <a class="btn assignment btn-primary" >
+                  Launch demo modal
+                </a></p>
               </div>
               
               <div class="col-sm-4">
@@ -94,25 +96,10 @@
 {% block custom_js %}
   <script>
     $(function() {
-    $(document).on('click', '.edit', function(e) {
-      e.preventDefault();
-      var id = $(this).data('id');
-      $.ajax({
-        type: 'GET',
-        url: '{% url "fetch_course_by_id" 123 %}'.replace('123', id),
-        dataType: 'json',
-        success: function(response) {
-          console.log(response)
-            if (response.error) {
-              swal("Error", "Access Denied", "error");
-          
-                toastr.error(errmsg, "Preview Error")
-            } else {
-                $('#edit_form').modal('show');
-                $('#course_id').val(id)
-                $('#form_body').html(response.form);
-            }
-        }
+    $(document).on('click', '.assignment', function(e) {
+                e.preventDefault();
+                alert("Wahala");
+                $('#assignment_modal').modal('show');
     });
   });
    $(document).on('click', '.delete', function(e) {
@@ -132,13 +119,12 @@
         swal("Action cancelled!");
       }
     });
-  });
 });
   </script>
 {% endblock custom_js %}
 
 {% block modal %}
-<div class="modal fade" id="edit_form">
+<div class="modal fade" id="assignment_modal">
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
