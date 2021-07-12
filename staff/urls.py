@@ -9,5 +9,6 @@ urlpatterns = [
     path('course/application/response/<int:this_id>/<str:status>',
          views.courseAppResponse, name='courseAppResponse'),
     path('classroom/<token>/', views.staffClassroom, name='staffClassroom'),
+    path('classroom/get_form/<str:what>', views.get_form, name='get_form'),
 
 ]

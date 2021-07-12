@@ -10,3 +10,20 @@
 <link rel="stylesheet" href="{% static 'assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css' %}" />
 <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
 <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}" />
+{% if 'classroom' in request.path %}
+<style>
+    .django-ckeditor-widget{
+        width: 100%;
+      }
+    .invalid{
+      font-style: italic;
+      font-weight: bold;
+      color: red;
+    }
+    .valid{
+      font-style: italic;
+      font-weight: bold;
+      color: green;
+    }
+</style>
+{% endif %}

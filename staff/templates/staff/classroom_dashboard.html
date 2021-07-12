@@ -7,8 +7,8 @@
     <div class="page-header flex-wrap">
       <h3 class="mb-0"> {{ course.course }} || Stream || ({{ ACADEMIC_SESSION }})
       </h3>
+      </div>
       
-    </div>
     <div class="row">
       <div class="col-xl-12 stretch-card grid-margin">
         <div class="card">
@@ -16,9 +16,12 @@
             <div class="row">
               {% if not registered %}
               <div class="col-md-12">
-                <p class="alert text-center alert-info"><span class="font-weight-bold">Course Lead Lecturer </span> : {{ course.course.id|lecturer }}. <a class="btn assignment btn-primary" >
-                  Launch demo modal
-                </a></p>
+                <p><button data-what='assignment' class="mb-1 btn launch btn-outline-primary btn-sm" >
+                  <i class='mdi mdi-plus'></i> Assignment</button>
+
+                  <button data-what='quiz' class="mb-1 btn launch btn-outline-primary btn-sm" >
+                  <i class='mdi mdi-plus'></i> Quiz</button></p>
+                <p class="alert text-center alert-info"><span class="font-weight-bold">Course Lead Lecturer </span> : {{ course.course.id|lecturer }}. </p>
               </div>
               
               <div class="col-sm-4">
@@ -76,6 +79,7 @@
                                 </tr>
                               {% endfor %}
                             </table>
+                            {{ assignment_form }}
                           </div>
                       </div>
                     </div>
@@ -96,9 +100,28 @@
 {% block custom_js %}
   <script>
     $(function() {
-    $(document).on('click', '.assignment', function(e) {
+    $(document).on('click', '.launch', function(e) {
                 e.preventDefault();
-                $('#assignment_modal').modal('show');
+                var title = $(this).data('what');
+                $.ajax({
+                  type: 'GET',
+                  url: '{% url "get_form" "123" %}'.replace('123', title),
+                  dataType: 'json',
+                  success: function(response) {
+                    console.log(response)
+                      if (response.error) {
+                        swal("Error", "Access Denied", "error");
+                    
+                          toastr.error(errmsg, "Preview Error")
+                      } else {
+                          //$('#edit_form').modal('show');
+                          $('#form_body').html(response.form);
+                          $("#modal_title").html("New " + title);
+                        $('#assignment_modal').modal('show');
+                      }
+                  }
+              });
+                
     });
   });
    $(document).on('click', '.delete', function(e) {
@@ -127,14 +150,13 @@
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title float-left"><b>Update Course</b></h4>
+            <h4 class="modal-title float-left" id='modal_title'><b></b></h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
               </div>
               <div class="modal-body">
                 <form action="{% url 'updateCourse' %}" method="post">
               {% csrf_token %}
-              <input type="hidden" name="course_id" id="course_id">
               <span id="form_body"></span>
               <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-info">

@@ -6,7 +6,9 @@ from .models import CourseAllocation
 from e_learning.functions import get_session, validate
 from student.models import CourseRegistration
 from classroom.models import *
+from classroom.forms import *
 from datetime import datetime
+from django.http import JsonResponse
 # Create your views here.
 
 
@@ -131,6 +133,8 @@ def staffClassroom(request, token):
             'no_of_students': CourseRegistration.objects.filter(course=course_reg.course, approved=True, session=session).count(),
             'no_of_assignments': assignments.count(),
             'expired_assignments': assignments.filter(expiry_date__lt=datetime.today()).count(),
+            'assignment_form': AssignmentForm(),
+
             'active_assignments': assignments.filter(expiry_date__gt=datetime.today()).count(),
         }
         return render(request, path("classroom_dashboard"), context)
@@ -138,3 +142,12 @@ def staffClassroom(request, token):
         print(e, "Here ---<")
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('staffDashboard'))
+
+
+def get_form(request, what):
+    staff = request.user.staff
+    context = {}
+    if what == 'assignment':
+        assignment_form = AssignmentForm()
+        context['form'] = assignment_form.as_p()
+        return JsonResponse(context)
