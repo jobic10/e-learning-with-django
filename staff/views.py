@@ -3,7 +3,7 @@ from django.contrib import messages
 from administrator.models import Course
 from django.db.models import Q, OuterRef, Exists
 from .models import CourseAllocation
-from e_learning.functions import get_session, validate
+from e_learning.functions import get_session, validate_access
 from student.models import CourseRegistration
 from classroom.models import *
 from classroom.forms import *
@@ -119,13 +119,13 @@ def courseAppResponse(request, this_id, status):
 
 def staffClassroom(request, token):
     try:
-        course_id = validate(token)
-        if course_id == False or course_id < 1 or not course_id:
-            raise("Access Denied")
+        course_reg = validate_access(token, request, 'staff')
+        # if course_id == False or course_id < 1 or not course_id:
+        #     raise("Access Denied")
         session = get_session()
-        staff = request.user.staff
-        course_reg = CourseAllocation.objects.get(
-            staff=staff, course_id=course_id, session=session, approved=True)
+        # staff = request.user.staff
+        # course_reg = CourseAllocation.objects.get(
+        #     staff=staff, course_id=course_id, session=session, approved=True)
         assignments = Assignment.objects.filter(
             session=session, course=course_reg.course)
         context = {
@@ -133,8 +133,6 @@ def staffClassroom(request, token):
             'no_of_students': CourseRegistration.objects.filter(course=course_reg.course, approved=True, session=session).count(),
             'no_of_assignments': assignments.count(),
             'expired_assignments': assignments.filter(expiry_date__lt=datetime.today()).count(),
-            'assignment_form': AssignmentForm(),
-
             'active_assignments': assignments.filter(expiry_date__gt=datetime.today()).count(),
         }
         return render(request, path("classroom_dashboard"), context)
@@ -144,10 +142,17 @@ def staffClassroom(request, token):
         return redirect(reverse('staffDashboard'))
 
 
-def get_form(request, what):
-    staff = request.user.staff
-    context = {}
-    if what == 'assignment':
-        assignment_form = AssignmentForm()
-        context['form'] = assignment_form.as_p()
-        return JsonResponse(context)
+def get_assignment_form(request, token):
+    try:
+        course_reg = validate_access(token, request, 'staff')
+        staff = request.user.staff
+        assignment_form = AssignmentForm(request.POST or None)
+        context = {
+            'course': course_reg,
+            'form': assignment_form
+        }
+        return render(request, path("classroom_assignment"), context)
+    except Exception as e:
+        print(e, "Here ---<")
+        messages.error(request, "Access to this resource is denied")
+        return redirect(reverse('staffDashboard'))

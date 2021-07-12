@@ -79,7 +79,6 @@
                                 </tr>
                               {% endfor %}
                             </table>
-                            {{ assignment_form }}
                           </div>
                       </div>
                     </div>
@@ -99,30 +98,16 @@
 
 {% block custom_js %}
   <script>
-    $(function() {
     $(document).on('click', '.launch', function(e) {
-                e.preventDefault();
-                var title = $(this).data('what');
-                $.ajax({
-                  type: 'GET',
-                  url: '{% url "get_form" "123" %}'.replace('123', title),
-                  dataType: 'json',
-                  success: function(response) {
-                    console.log(response)
-                      if (response.error) {
-                        swal("Error", "Access Denied", "error");
-                    
-                          toastr.error(errmsg, "Preview Error")
-                      } else {
-                          //$('#edit_form').modal('show');
-                          $('#form_body').html(response.form);
-                          $("#modal_title").html("New " + title);
-                        $('#assignment_modal').modal('show');
-                      }
-                  }
-              });
-                
-    });
+    var token = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
+      e.preventDefault();
+      var title = $(this).data('what');
+      if (title == 'assignment'){
+
+        window.location = '{% url "get_assignment_form" "123" %}'.replace('123', token);
+      }else{
+        alert("Else")
+      }
   });
    $(document).on('click', '.delete', function(e) {
      
@@ -144,7 +129,7 @@
 });
   </script>
 {% endblock custom_js %}
-
+{% comment %}
 {% block modal %}
 <div class="modal fade" id="assignment_modal">
   <div class="modal-dialog">
@@ -170,3 +155,4 @@
   </div>
 </div>
 {% endblock modal %}
+{% endcomment %}

@@ -26,3 +26,34 @@ def validate(token):
     course_id = decrypt(token)
     course_id = int(course_id)
     return course_id
+
+
+def validate_access(token, request, user_type='student'):
+    is_error = False
+    value = None
+    try:
+        course_id = validate(token)
+        if course_id == False or course_id < 1 or not course_id:
+            is_error = True
+        else:
+            session = get_session()
+            if user_type == 'student':
+                student = request.user.student
+                from student.models import CourseRegistration
+                value = CourseRegistration.objects.get(
+                    student=student, course_id=course_id, session=session, approved=True)
+                is_error = False
+            elif user_type == 'staff':
+                from staff.models import CourseAllocation
+                staff = request.user.staff
+                value = CourseAllocation.objects.get(
+                    staff=staff, course_id=course_id, session=session, approved=True)
+                is_error = False
+            else:
+                return False
+    except:
+        is_error = True
+    if is_error:
+        raise Exception("Access Denied")
+    else:
+        return value
