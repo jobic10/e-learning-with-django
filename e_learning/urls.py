@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
+from ckeditor_uploader import views as ckeditor_views
 
 urlpatterns = [
     path('', include('account.urls')),
@@ -22,4 +25,8 @@ urlpatterns = [
     path('staff/', include('staff.urls')),
     path('student/', include('student.urls')),
     path('admin/', admin.site.urls),
+    path('ckeditor/upload/', login_required(ckeditor_views.upload),
+         name='ckeditor_upload'),
+    path('ckeditor/browse/',
+         never_cache(login_required(ckeditor_views.browse)), name='ckeditor_browse'),
 ]

@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Third Part Apps
+    'ckeditor',
+    'ckeditor_uploader',
+
     # My Apps
     'administrator.apps.AdministratorConfig',
     'student.apps.StudentConfig',
