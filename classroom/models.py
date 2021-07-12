@@ -15,7 +15,7 @@ class Assignment(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     edited_date = models.DateTimeField(auto_now=True)
     expiry_date = models.DateField(
-        validators=[MinValueValidator(datetime.date.today)])
+        validators=[MinValueValidator(datetime.date.today() + datetime.timedelta(days=1))])
 
 
 class Submission(models.Model):
