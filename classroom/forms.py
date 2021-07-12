@@ -13,4 +13,4 @@ class AssignmentForm(forms.ModelForm):
 
     class Meta:
         model = Assignment
-        fields = ['question']
+        fields = ['question', 'expiry_date']
