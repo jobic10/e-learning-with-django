@@ -154,6 +154,10 @@ def get_assignment_form(request, token):
 
         if request.method == 'POST':
             if assignment_form.is_valid():
+                assignment = assignment_form.save(commit=False)
+                assignment.course = course_reg.course
+                assignment.session = get_session()
+                assignment.save()
                 messages.success(request, "New Assignment Created")
             else:
                 messages.error(request, "Please fill form properly")
