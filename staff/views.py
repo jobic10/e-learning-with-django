@@ -158,6 +158,7 @@ def get_assignment_form(request, token):
                 assignment.course = course_reg.course
                 assignment.session = get_session()
                 assignment.save()
+                context['form'] = AssignmentForm()
                 messages.success(request, "New Assignment Created")
             else:
                 messages.error(request, "Please fill form properly")
