@@ -137,4 +137,4 @@ dmypy.json
 media/
 */migrations/*
 # static/
-README.md
+TODO.md

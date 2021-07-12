@@ -1,0 +1,101 @@
+{% extends 'administrator/main.html' %}
+{% load static %}
+{% load extra_tags %}
+{% load encrypt_tags %}
+{% block content %}
+  <div class="content-wrapper pb-0">
+    <div class="page-header flex-wrap">
+      <h3 class="mb-0"> {{ course.course }} || Assignment || ({{ ACADEMIC_SESSION }})
+      </h3>
+      </div>
+      
+    <div class="row">
+      <div class="col-xl-12 stretch-card grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12">
+                  <div class="card mb-3 mb-sm-0">
+                    <div class="card-body py-3 px-4">
+                        <p class="m-0 survey-head">Add New Assignment</p>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <form action="" method="post">
+                              {% csrf_token %}
+                              {% for field in form %}
+                            <div class="form-group">
+                            <b>{{field.label_tag}}</b>
+                            <span class="text-danger">{{field.errors}}</span> {{field}}
+                            </div>  
+                            {% endfor %} 
+                            <div class="form-group">
+                            <input type="submit" value="Submit" class="btn btn-info">
+                            </div>  
+                            </form>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            
+          
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- main-panel ends -->
+{% endblock content %}
+
+
+
+{% block custom_js %}
+  <script>
+    $(function() {
+
+   $(document).on('click', '.delete', function(e) {
+     
+     swal({
+       title: "Are you sure?",
+       text: "Once deleted, you will not be able to undo this!",
+       icon: "warning",
+       buttons: true,
+       dangerMode: true,
+      })
+    .then((willDelete) => {
+      if (willDelete) {
+        var id = $(this).data('id');
+        window.location = "{% url 'delete_course' 123 %}".replace("123",id)
+      } else {
+        swal("Action cancelled!");
+      }
+    });
+});
+  </script>
+{% endblock custom_js %}
+
+{% block modal %}
+<div class="modal fade" id="assignment_modal">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title float-left" id='modal_title'><b></b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form action="{% url 'updateCourse' %}" method="post">
+              {% csrf_token %}
+              <span id="form_body"></span>
+              <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-info">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-flat pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock modal %}

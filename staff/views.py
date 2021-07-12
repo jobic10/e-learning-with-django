@@ -167,3 +167,19 @@ def get_assignment_form(request, token):
         print(e, "Here ---<")
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('staffDashboard'))
+
+
+def view_all_assignments(request, token):
+    course_reg = validate_access(token, request, 'staff')
+    try:
+        assignments = Assignment.objects.filter(
+            session=get_session(), course=course_reg.course)
+        context = {
+            'assignments': assignments,
+            'course': course_reg
+        }
+        return render(request, path("classroom_view_assignment"), context)
+    except Exception as e:
+        print(e, "Here --- <")
+        messages.error(request, "Access to this resource is denied")
+        return redirect(reverse('staffDashboard'))

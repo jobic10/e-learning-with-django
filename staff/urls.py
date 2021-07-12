@@ -11,5 +11,6 @@ urlpatterns = [
     path('classroom/<token>/', views.staffClassroom, name='staffClassroom'),
     path('classroom/<str:token>/new_assignment',
          views.get_assignment_form, name='get_assignment_form'),
-
+    path('classroom/<str:token>/assignments/',
+         views.view_all_assignments, name='view_all_assignments'),
 ]

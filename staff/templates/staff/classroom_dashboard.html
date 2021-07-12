@@ -22,7 +22,7 @@
                   <!-- <button data-what='quiz' class="mb-1 btn launch btn-outline-primary btn-sm" >
                   <i class='mdi mdi-plus'></i> Quiz</button> -->
 
-                  <button data-what='view_assignment' class="mb-1 btn float-right launch btn-outline-primary btn-sm" >
+                  <button data-what='view_all_assignment' class="mb-1 btn float-right launch btn-outline-primary btn-sm" >
                     <i class='mdi mdi-library-books'></i> View Assignments</button>
                 </p>
                 <p class="alert text-center alert-info"><span class="font-weight-bold">Course Lead Lecturer </span> : {{ course.course.id|lecturer }}. </p>
@@ -108,8 +108,8 @@
       var title = $(this).data('what');
       if (title == 'new_assignment'){
         window.location = '{% url "get_assignment_form" "123" %}'.replace('123', token);
-      }else{
-        alert("Else")
+      }else if(title == 'view_all_assignment'){
+        window.location = '{% url "view_all_assignments" "123" %}'.replace('123', token);
       }
   });
    $(document).on('click', '.delete', function(e) {
