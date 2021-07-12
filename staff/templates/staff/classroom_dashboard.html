@@ -16,11 +16,15 @@
             <div class="row">
               {% if not registered %}
               <div class="col-md-12">
-                <p><button data-what='assignment' class="mb-1 btn launch btn-outline-primary btn-sm" >
-                  <i class='mdi mdi-plus'></i> Assignment</button>
+                <p><button data-what='new_assignment' class="mb-1 btn launch btn-outline-primary btn-sm" >
+                  <i class='mdi mdi-plus'></i> New Assignment</button>
 
-                  <button data-what='quiz' class="mb-1 btn launch btn-outline-primary btn-sm" >
-                  <i class='mdi mdi-plus'></i> Quiz</button></p>
+                  <!-- <button data-what='quiz' class="mb-1 btn launch btn-outline-primary btn-sm" >
+                  <i class='mdi mdi-plus'></i> Quiz</button> -->
+
+                  <button data-what='view_assignment' class="mb-1 btn float-right launch btn-outline-primary btn-sm" >
+                    <i class='mdi mdi-library-books'></i> View Assignments</button>
+                </p>
                 <p class="alert text-center alert-info"><span class="font-weight-bold">Course Lead Lecturer </span> : {{ course.course.id|lecturer }}. </p>
               </div>
               
@@ -102,8 +106,7 @@
     var token = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
       e.preventDefault();
       var title = $(this).data('what');
-      if (title == 'assignment'){
-
+      if (title == 'new_assignment'){
         window.location = '{% url "get_assignment_form" "123" %}'.replace('123', token);
       }else{
         alert("Else")
