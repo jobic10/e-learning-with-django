@@ -12,12 +12,6 @@ class AssignmentForm(FormSettings):
         # super(AssignmentForm, self).__init__(*args, **kwargs)
         super().__init__(*args, **kwargs)
 
-    # def clean_expiry_date(self):
-    #     date = self.cleaned_data['expiry_date']
-    #     import datetime
-    #     if date <= datetime.datetime.today():
-    #         raise ValidationError("Please select a future date")
-
     class Meta:
         model = Assignment
         fields = ['question', 'expiry_date']

@@ -151,6 +151,12 @@ def get_assignment_form(request, token):
             'course': course_reg,
             'form': assignment_form
         }
+
+        if request.method == 'POST':
+            if assignment_form.is_valid():
+                messages.success(request, "New Assignment Created")
+            else:
+                messages.error(request, "Please fill form properly")
         return render(request, path("classroom_assignment"), context)
     except Exception as e:
         print(e, "Here ---<")
