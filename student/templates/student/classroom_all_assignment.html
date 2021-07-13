@@ -59,14 +59,16 @@
                                   <button class="btn assignment btn-primary" data-action="view" data-id="{{ assignment.id }}" > 
                                     View Answer
                                   </button> 
+                                  <label for="" class="text-info">You failed to turn in your assignment.</label>
                                   {% else %}
                                  
                                   {% if todays_date <= assignment.expiry_date|date:"Y-m-d" %}
                                   <button class="btn assignment btn-primary" data-action="submission" data-id="{{ assignment.id }}" > 
                                     Submit
                                   </button> 
+
                                   {% else %}
-                                  You failed to turn in your assignment.
+                                  <label for="" class="badge badge-danger">You failed to turn in your assignment.</label>
                                   {% endif %}
 
                                   {% endif %}
