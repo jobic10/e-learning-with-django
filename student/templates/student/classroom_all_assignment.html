@@ -118,7 +118,7 @@
                   toastr.error(errmsg, "Preview Error")
               } else {
                   $('#answer_modal').modal('show');
-                  $('#submitted_date').html(response.submission_date)
+                  $('#submitted_date').html(response.submitted_date)
                   $('#modal_body').html(response.answer);
               }
           }
@@ -143,8 +143,11 @@
                 <span aria-hidden="true">&times;</span></button>
               </div>
               <div class="modal-body">
-                <span id="submitted_date"></span>
+<label for="" class="badge badge-info">Submission Date/Time: </label>
 
+                <div id="submitted_date"></div>
+<hr>
+<label for="" class="badge badge-info">Your Answer: </label>
                 <div class="form-group">
                 <span id="modal_body"></span>
               </div>
