@@ -26,7 +26,6 @@
                               <th>Title</th>
                               <th>Submission Date</th>
                               <th>Status</th>
-                              <th>No. of Submissions Received</th>
                               <th>Actions</th>
                             </tr>
                             {% now "Y-m-d" as todays_date %}
@@ -45,8 +44,10 @@
                                   {% endif %}
                                   
                                 </td>
-                                <td>{{ assignment.id|assignment_received }}</td>
-                                <td><button class="btn assignment btn-info" data-id="{{ assignment.id }}" >Edit</button></td>
+                                <td>
+                                  <button class="btn assignment btn-primary" data-id="{{ assignment.id }}" >View Submissions ({{ assignment.id|assignment_received }}) </button> - 
+                                  <button class="btn assignment btn-secondary" data-id="{{ assignment.id }}" >Edit</button>
+                                </td>
                               </tr>
                               {% endfor %}
                           </table>
