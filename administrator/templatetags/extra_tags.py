@@ -44,3 +44,17 @@ def have_i_submitted(student, assignment_id):
         return Submission.objects.filter(student=student, assignment__id=assignment_id).exists()
     except:
         return False
+
+
+@register.simple_tag
+def when_did_i_submit(student, assignment_id):
+    output = ""
+    try:
+        session = get_session()
+        sub = Submission.objects.get(
+            student=student, assignment__id=assignment_id)
+        stamp = sub.submission_date.time().strftime("%a, %d-%b-%y %I: %M%p")
+        output = f"Turned in at {stamp}"
+    except:
+        output = ""
+    return output
