@@ -27,7 +27,7 @@
                               <th>Submission Date</th>
                               <th>Status</th>
                               <th>No. of Submissions Received</th>
-                              <th>Edit</th>
+                              <th>Actions</th>
                             </tr>
                             {% now "Y-m-d" as todays_date %}
 
@@ -46,7 +46,7 @@
                                   
                                 </td>
                                 <td>{{ assignment.id|assignment_received }}</td>
-                                <td>{{ assignment.id }}</td>
+                                <td><button class="btn assignment btn-info" data-id="{{ assignment.id }}" >Edit</button></td>
                               </tr>
                               {% endfor %}
                           </table>
@@ -71,23 +71,17 @@
   <script>
     $(function() {
 
-   $(document).on('click', '.delete', function(e) {
+      $(document).on('click', '.assignment', function(e) {
      
-     swal({
-       title: "Are you sure?",
-       text: "Once deleted, you will not be able to undo this!",
-       icon: "warning",
-       buttons: true,
-       dangerMode: true,
-      })
-    .then((willDelete) => {
-      if (willDelete) {
-        var id = $(this).data('id');
-        window.location = "{% url 'delete_course' 123 %}".replace("123",id)
-      } else {
-        swal("Action cancelled!");
-      }
-    });
+      e.preventDefault();
+      var id = $(this).data('id');
+      var token = location.pathname.split("/").slice(-3)[0].replace(/^\/|\/$/g, '');
+        var link = '{% url "edit_assignment_form" "token" 123 %}'.replace('token', token).replace(123, id);
+      window.location = link;
+
+      
+
+});
 });
   </script>
 {% endblock custom_js %}
