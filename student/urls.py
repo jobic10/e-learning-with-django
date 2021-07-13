@@ -9,4 +9,6 @@ urlpatterns = [
     path('classroom/<token>/', views.studentClassroom, name='studentClassroom'),
     path('classroom/<token>/assignments/',
          views.active_assignments, name='studentActiveAssignments'),
+    path('classroom/<token>/assignments/<int:assignment_id>/submit',
+         views.submit_assignment, name='studentSubmitAssignments'),
 ]

@@ -6,7 +6,7 @@ from e_learning.functions import get_session, validate_access
 from .models import CourseRegistration
 from classroom.models import Assignment, Submission
 from datetime import datetime
-
+from classroom.forms import SubmissionForm
 # Create your views here.
 
 
@@ -103,6 +103,22 @@ def active_assignments(request, token):
             'course': course_reg
         }
         return render(request, path("classroom_all_assignment"), context)
+    except Exception as e:
+        print(e, "Here ---<")
+        messages.error(request, "Access to this resource is denied")
+        return redirect(reverse('studentDashboard'))
+
+
+def submit_assignment(request, token, assignment_id):
+    try:
+        session = get_session()
+        course_reg = validate_access(token, request, 'student')
+        form = SubmissionForm(request.POST or None)
+        context = {
+            'form': form,
+            'course': course_reg
+        }
+        return render(request, path("classroom_submit_assignment"), context)
     except Exception as e:
         print(e, "Here ---<")
         messages.error(request, "Access to this resource is denied")
