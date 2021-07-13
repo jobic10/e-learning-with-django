@@ -113,7 +113,8 @@ def submit_assignment(request, token, assignment_id):
     try:
         session = get_session()
         course_reg = validate_access(token, request, 'student')
-        assignment = Assignment(session=session, course=course_reg.course)
+        assignment = Assignment.objects.get(
+            session=session, course=course_reg.course, id=assignment_id)
         form = SubmissionForm(request.POST or None)
         context = {
             'form': form,
