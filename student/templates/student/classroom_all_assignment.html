@@ -55,10 +55,15 @@
                                     View Answer
                                   </button> 
                                   {% else %}
-                                  <!-- Form -->
+                                 
+                                  {% if todays_date <= assignment.expiry_date|date:"Y-m-d" %}
                                   <button class="btn assignment btn-primary" data-action="submission" data-id="{{ assignment.id }}" > 
                                     Submit
                                   </button> 
+                                  {% else %}
+                                  You failed to turn in your assignment.
+                                  {% endif %}
+
                                   {% endif %}
                                 
                                 
