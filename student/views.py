@@ -115,6 +115,11 @@ def submit_assignment(request, token, assignment_id):
         course_reg = validate_access(token, request, 'student')
         assignment = Assignment.objects.get(
             session=session, course=course_reg.course, id=assignment_id)
+        # Check if this assignment has expire
+        if assignment.expiry_date > datetime.today():
+            messages.error(
+                request, "You are trying to submit an assignment that has already pass the submission date")
+            return redirect(reverse('studentDashboard'))
         form = SubmissionForm(request.POST or None)
         context = {
             'form': form,
