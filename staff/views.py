@@ -195,6 +195,13 @@ def edit_assignment_form(request, token, assignment_id):
             'form': form,
             'course': course_reg
         }
+        if request.method == 'POST':
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Assignment Updated")
+            else:
+                messages.error(request, "Form invalid")
+
         return render(request, path("edit_assignment_form"), context)
     except Exception as e:
         print(e, "Here --- <")
