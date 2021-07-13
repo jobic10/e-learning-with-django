@@ -207,3 +207,7 @@ def edit_assignment_form(request, token, assignment_id):
         print(e, "Here --- <")
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('staffDashboard'))
+
+
+def view_submission(request, token, assignment_id):
+    pass

@@ -45,8 +45,9 @@
                                   
                                 </td>
                                 <td>
-                                  <button class="btn assignment btn-primary" data-id="{{ assignment.id }}" >View Submissions ({{ assignment.id|assignment_received }}) </button> - 
-                                  <button class="btn assignment btn-secondary" data-id="{{ assignment.id }}" >Edit</button>
+                                  <button class="btn assignment btn-secondary" data-action='preview' data-id="{{ assignment.id }}" >Preview</button> -
+                                  <button class="btn assignment btn-primary" data-action="submission" data-id="{{ assignment.id }}" >Submissions ({{ assignment.id|assignment_received }}) </button> - 
+                                  <button class="btn assignment btn-secondary" data-action="edit" data-id="{{ assignment.id }}" >Edit</button>
                                 </td>
                               </tr>
                               {% endfor %}
@@ -76,9 +77,21 @@
      
       e.preventDefault();
       var id = $(this).data('id');
+      var action = $(this).data('action');
       var token = location.pathname.split("/").slice(-3)[0].replace(/^\/|\/$/g, '');
+      if (action=='edit'){
+
         var link = '{% url "edit_assignment_form" "token" 123 %}'.replace('token', token).replace(123, id);
-      window.location = link;
+        window.location = link;
+      }else if (action == 'preview'){
+
+      }else{
+        //submission
+        var link = '{% url "view_submission" "token" 123 %}'.replace('token', token).replace(123, id);
+
+        window.location = link;
+
+      }
 
       
 

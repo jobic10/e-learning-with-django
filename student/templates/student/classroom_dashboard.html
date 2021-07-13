@@ -16,6 +16,9 @@
             <div class="row">
               {% if not registered %}
               <div class="col-md-12">
+                  <p><button data-what='view_assignment' class="mb-1 btn assignment btn-outline-primary btn-sm" >
+                    <i class='mdi mdi-plus'></i> View Assignments <sup>*{{ active_assignments }}</sup></button>
+                </p>
                 <p class="alert text-center alert-info"><span class="font-weight-bold">Course Lead Lecturer </span> : {{ course.course.id|lecturer }}</p>
               </div>
               
@@ -98,26 +101,10 @@
 {% block custom_js %}
   <script>
     $(function() {
-    $(document).on('click', '.edit', function(e) {
+    $(document).on('click', '.assignment', function(e) {
       e.preventDefault();
-      var id = $(this).data('id');
-      $.ajax({
-        type: 'GET',
-        url: '{% url "fetch_course_by_id" 123 %}'.replace('123', id),
-        dataType: 'json',
-        success: function(response) {
-          console.log(response)
-            if (response.error) {
-              swal("Error", "Access Denied", "error");
-          
-                toastr.error(errmsg, "Preview Error")
-            } else {
-                $('#edit_form').modal('show');
-                $('#course_id').val(id)
-                $('#form_body').html(response.form);
-            }
-        }
-    });
+      var token = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
+       window.location = '{% url "studentActiveAssignments" "123" %}'.replace('123', token);
   });
    $(document).on('click', '.delete', function(e) {
      

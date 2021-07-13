@@ -15,4 +15,6 @@ urlpatterns = [
          views.view_all_assignments, name='view_all_assignments'),
     path('classroom/<str:token>/assignment/edit/<int:assignment_id>',
          views.edit_assignment_form, name="edit_assignment_form"),
+    path('classroom/<str:token>/assignment/submission/<int:assignment_id>',
+         views.view_submission, name="view_submission"),
 ]
