@@ -61,9 +61,9 @@
     var ref_link = "{{ request.META.HTTP_REFERER }}";
     var current_link = location.href;
     var goto_link = ref_link;
-    var token = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
+    var token = location.pathname.split("/").slice(-4)[0].replace(/^\/|\/$/g, '');
     if (current_link == ref_link){
-      goto_link = "{% url 'staffClassroom' '123' %}".replace("123",token);
+      goto_link = "{% url 'view_all_assignments' '123' %}".replace("123",token);
     }
     window.location = goto_link;
   
