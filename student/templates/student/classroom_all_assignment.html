@@ -26,7 +26,7 @@
                               <th>Title</th>
                               <th>Submission Date</th>
                               <th>Status</th>
-                              <th>Actions</th>
+                              <th>Action</th>
                             </tr>
                             {% now "Y-m-d" as todays_date %}
 
@@ -45,13 +45,13 @@
                                   
                                 </td>
                                 <td>
-                                  <button class="btn assignment btn-secondary" data-action='preview' data-id="{{ assignment.id }}" >Preview</button> -
+                               
                                   {% comment %}
                                     Check if student has submitted. If he has, display modal for submitted value. Else redirect them to a page where they'd submit
                                   {% endcomment %}
                                   {% have_i_submitted request.user.student assignment.id as I_Have_Submitted %}
                                   {% if I_Have_Submitted %}
-                                  <button class="btn assignment btn-primary" data-action="submission" data-id="{{ assignment.id }}" > 
+                                  <button class="btn assignment btn-primary" data-action="view" data-id="{{ assignment.id }}" > 
                                     View Answer
                                   </button> 
                                   {% else %}

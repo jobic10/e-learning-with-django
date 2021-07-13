@@ -94,4 +94,16 @@ def studentClassroom(request, token):
 
 def active_assignments(request, token):
     try:
+        session = get_session()
         course_reg = validate_access(token, request, 'student')
+        assignments = Assignment.objects.filter(
+            session=session, course=course_reg.course).order_by('-expiry_date')
+        context = {
+            'assignments': assignments,
+            'course': course_reg
+        }
+        return render(request, path("classroom_all_assignment"), context)
+    except Exception as e:
+        print(e, "Here ---<")
+        messages.error(request, "Access to this resource is denied")
+        return redirect(reverse('studentDashboard'))
