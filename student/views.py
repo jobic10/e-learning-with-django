@@ -2,7 +2,7 @@ from django.shortcuts import render, reverse, redirect
 from django.contrib import messages
 from administrator.models import Course
 from django.db.models import Q, OuterRef, Exists
-from e_learning.functions import get_session, validate
+from e_learning.functions import get_session, validate_access
 from .models import CourseRegistration
 from classroom.models import Assignment, Submission
 from datetime import datetime
@@ -71,13 +71,9 @@ def courseRegistration(request):
 
 def studentClassroom(request, token):
     try:
-        course_id = validate(token)
-        if course_id == False or course_id < 1 or not course_id:
-            raise("Access Denied")
+        course_reg = validate_access(token, request, 'student')
         session = get_session()
         student = request.user.student
-        course_reg = CourseRegistration.objects.get(
-            student=student, course_id=course_id, session=session, approved=True)
         assignments = Assignment.objects.filter(
             session=session, course=course_reg.course)
         context = {
@@ -94,3 +90,8 @@ def studentClassroom(request, token):
         print(e, "Here ---<")
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('studentDashboard'))
+
+
+def active_assignments(request, token):
+    try:
+        course_reg = validate_access(token, request, 'student')
