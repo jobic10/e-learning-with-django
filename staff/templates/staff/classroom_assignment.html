@@ -5,8 +5,7 @@
 {% block content %}
   <div class="content-wrapper pb-0">
     <div class="page-header flex-wrap">
-      <h3 class="mb-0"> {{ course.course }} || Assignment || ({{ ACADEMIC_SESSION }})
-      </h3>
+      <h3 class="mb-0"> {{ course.course }} || New Assignment || ({{ ACADEMIC_SESSION }}) </h3>
       </div>
       
     <div class="row">
@@ -17,7 +16,9 @@
                 <div class="col-sm-12">
                   <div class="card mb-3 mb-sm-0">
                     <div class="card-body py-3 px-4">
-                        <p class="m-0 survey-head">Add New Assignment</p>
+                     <button class="mb-1 btn previous btn-outline-primary btn-sm" >
+                        <i class='mdi mdi-keyboard-backspace'></i> Go Back</button>
+                        <p class="m-0 text-danger"><marquee behavior="alternate" scrollamount="1" direction="right">Upon creation, you will not be allowed to delete this.</marquee></p>
                         <hr>
                         <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                             <form action="" method="post">
@@ -53,24 +54,22 @@
   <script>
     $(function() {
 
-   $(document).on('click', '.delete', function(e) {
-     
-     swal({
-       title: "Are you sure?",
-       text: "Once deleted, you will not be able to undo this!",
-       icon: "warning",
-       buttons: true,
-       dangerMode: true,
-      })
-    .then((willDelete) => {
-      if (willDelete) {
-        var id = $(this).data('id');
-        window.location = "{% url 'delete_course' 123 %}".replace("123",id)
-      } else {
-        swal("Action cancelled!");
-      }
-    });
-});});
+   $(document).on('click', '.previous', function(e) {
+    
+    
+
+    var ref_link = "{{ request.META.HTTP_REFERER }}";
+    var current_link = location.href;
+    var goto_link = ref_link;
+    var token = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
+    if (current_link == ref_link){
+      goto_link = "{% url 'staffClassroom' '123' %}".replace("123",token);
+    }
+    window.location = goto_link;
+  
+ 
+});
+});
   </script>
 {% endblock custom_js %}
 
