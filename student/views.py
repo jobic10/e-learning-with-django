@@ -123,7 +123,8 @@ def submit_assignment(request, token, assignment_id):
         form = SubmissionForm(request.POST or None)
         context = {
             'form': form,
-            'course': course_reg
+            'course': course_reg,
+            'assignment': assignment
         }
         return render(request, path("classroom_submit_assignment"), context)
     except Exception as e:
