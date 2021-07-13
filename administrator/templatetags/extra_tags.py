@@ -35,3 +35,12 @@ def assignment_received(value):
     except:
         pass
     return received
+
+
+@register.simple_tag
+def have_i_submitted(student, assignment_id):
+    try:
+        session = get_session()
+        return Assignment.objects.filter(student=student, id=assignment_id).exists()
+    except:
+        return False
