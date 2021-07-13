@@ -14,7 +14,7 @@ class AssignmentForm(FormSettings):
 
     class Meta:
         model = Assignment
-        fields = ['question', 'expiry_date']
+        fields = ['title', 'question', 'expiry_date']
         widgets = {
             'expiry_date': forms.DateInput(attrs={'type': 'date', 'placeholder': 'Please select end date for submission'})
         }

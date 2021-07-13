@@ -2,6 +2,7 @@ from django import template
 from django.forms.fields import CheckboxInput
 from e_learning.functions import get_session
 from staff.models import CourseAllocation
+from classroom.models import Submission, Assignment
 register = template.Library()
 
 
@@ -21,3 +22,16 @@ def lecturer(value):
     except:
         pass
     return lecturer
+
+
+@register.filter(name='assignment_received')
+def assignment_received(value):
+    received = "None"
+    assignment_id = int(value)
+    try:
+        session = get_session()
+        assignment = Assignment.objects.get(id=assignment_id)
+        received = Submission.objects.filter(assignment=assignment).count()
+    except:
+        pass
+    return received

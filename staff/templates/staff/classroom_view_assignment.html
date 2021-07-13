@@ -5,7 +5,7 @@
 {% block content %}
   <div class="content-wrapper pb-0">
     <div class="page-header flex-wrap">
-      <h3 class="mb-0"> {{ course.course }} || Assignment || ({{ ACADEMIC_SESSION }})
+      <h3 class="mb-0"> {{ course.course }} || View All Assignments || ({{ ACADEMIC_SESSION }})
       </h3>
       </div>
       
@@ -17,21 +17,39 @@
                 <div class="col-sm-12">
                   <div class="card mb-3 mb-sm-0">
                     <div class="card-body py-3 px-4">
-                        <p class="m-0 survey-head">Add New Assignment</p>
+                        <p class="m-0 survey-head">All Assignments</p>
                         <hr>
                         <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                            <form action="" method="post">
-                              {% csrf_token %}
-                              {% for field in form %}
-                            <div class="form-group">
-                            <b>{{field.label_tag}}</b>
-                            <span class="text-danger">{{field.errors}}</span> {{field}}
-                            </div>  
-                            {% endfor %} 
-                            <div class="form-group">
-                            <input type="submit" value="Submit" class="btn btn-info">
-                            </div>  
-                            </form>
+                          <table class="table-striped table">
+                            <tr>
+                              <th>SN</th>
+                              <th>Title</th>
+                              <th>Submission Date</th>
+                              <th>Status</th>
+                              <th>No. of Submissions Received</th>
+                              <th>Edit</th>
+                            </tr>
+                            {% now "Y-m-d" as todays_date %}
+
+                            {% for assignment in assignments  %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ assignment.title }}</td>
+                                <td>{{ assignment.expiry_date }}</td>
+                                <td>
+                                  
+                                  {% if todays_date <= assignment.expiry_date|date:"Y-m-d" %}
+                                  <label class="badge badge-success">Active</label>
+                                  {% else %}
+                                  <label class="badge badge-danger">Expired</label>
+                                  {% endif %}
+                                  
+                                </td>
+                                <td>{{ assignment.id|assignment_received }}</td>
+                                <td>{{ assignment.id }}</td>
+                              </tr>
+                              {% endfor %}
+                          </table>
                           </div>
                       </div>
                     </div>
