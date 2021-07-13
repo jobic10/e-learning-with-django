@@ -41,6 +41,6 @@ def assignment_received(value):
 def have_i_submitted(student, assignment_id):
     try:
         session = get_session()
-        return Assignment.objects.filter(student=student, id=assignment_id).exists()
+        return Submission.objects.filter(student=student, assignment__id=assignment_id).exists()
     except:
         return False
