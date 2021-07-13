@@ -18,7 +18,13 @@
                     <div class="card-body py-3 px-4">
                      <button class="mb-1 btn previous btn-outline-primary btn-sm" >
                         <i class='mdi mdi-keyboard-backspace'></i> Go Back</button>
-                        <p class="m-0 text-danger"><marquee behavior="alternate" scrollamount="1" direction="right">Upon creation, you will not be allowed to edit/delete this.</marquee></p>
+                        <div class="text-center">
+                          <h3 class="text-info">Assignment Details</h3>
+                          <h4>{{ assignment.title }} || Due Date : {{ assignment.expiry_date }}</h4>
+                          {{ assignment.question|safe }}
+                        </div>
+                        <hr>
+                        <p class="m-0 text-danger"><marquee behavior="alternate" scrollamount="1" direction="right">Upon submission, you will not be allowed to edit/delete this.</marquee></p>
                         <hr>
                         <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                             <form action="" method="post">
