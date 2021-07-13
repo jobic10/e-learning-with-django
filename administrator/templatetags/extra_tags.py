@@ -1,6 +1,6 @@
 from django import template
 from django.forms.fields import CheckboxInput
-from e_learning.functions import get_session
+from e_learning.functions import get_session, format_date
 from staff.models import CourseAllocation
 from classroom.models import Submission, Assignment
 register = template.Library()
@@ -53,7 +53,7 @@ def when_did_i_submit(student, assignment_id):
         session = get_session()
         sub = Submission.objects.get(
             student=student, assignment__id=assignment_id)
-        stamp = sub.submission_date.strftime("%a, %d-%b-%y %I: %M %p")
+        stamp = format_date(sub.submission_date)
         output = f"Turned in : {stamp}"
     except:
         output = ""

@@ -2,7 +2,7 @@ from django.shortcuts import render, reverse, redirect
 from django.contrib import messages
 from administrator.models import Course
 from django.db.models import Q, OuterRef, Exists
-from e_learning.functions import get_session, validate_access, fetch_answer_to_this_assignment
+from e_learning.functions import get_session, validate_access, fetch_answer_to_this_assignment, format_date
 from .models import CourseRegistration
 from classroom.models import Assignment, Submission
 from datetime import datetime
@@ -152,7 +152,7 @@ def get_answer(request, token, assignment_id):
             request.user.student, assignment_id, 'student')
         print(error, value, assignment_id, "Na him be that")
         if not error:
-            context['submitted_date'] = value.submission_date
+            context['submitted_date'] = format_date(value.submission_date)
             context['answer'] = value.answer
         context['error'] = error
     except Exception as e:
