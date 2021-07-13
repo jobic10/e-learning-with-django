@@ -53,8 +53,8 @@ def when_did_i_submit(student, assignment_id):
         session = get_session()
         sub = Submission.objects.get(
             student=student, assignment__id=assignment_id)
-        stamp = sub.submission_date.time().strftime("%a, %d-%b-%y %I: %M%p")
-        output = f"Turned in at {stamp}"
+        stamp = sub.submission_date.strftime("%a, %d-%b-%y %I: %M %p")
+        output = f"Turned in : {stamp}"
     except:
         output = ""
     return output

@@ -52,16 +52,12 @@
                                 </td>
                                 <td>
                                
-                                  {% comment %}
-                                    Check if student has submitted. If he has, display modal for submitted value. Else redirect them to a page where they'd submit
-                                  {% endcomment %}
                                   {% if I_Have_Submitted %}
                                   <button class="btn assignment btn-primary" data-action="view" data-id="{{ assignment.id }}" > 
                                     View Answer
                                   </button> 
-                                  <label for="" class="text-info">You failed to turn in your assignment.</label>
+                                  <label for="" class="text-info">{% when_did_i_submit request.user.student assignment.id %}</label>
                                   {% else %}
-                                 
                                   {% if todays_date <= assignment.expiry_date|date:"Y-m-d" %}
                                   <button class="btn assignment btn-primary" data-action="submit" data-id="{{ assignment.id }}" > 
                                     Submit
