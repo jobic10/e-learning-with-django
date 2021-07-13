@@ -2,11 +2,12 @@ from django.shortcuts import render, reverse, redirect
 from django.contrib import messages
 from administrator.models import Course
 from django.db.models import Q, OuterRef, Exists
-from e_learning.functions import get_session, validate_access
+from e_learning.functions import get_session, validate_access, fetch_answer_to_this_assignment
 from .models import CourseRegistration
 from classroom.models import Assignment, Submission
 from datetime import datetime
 from classroom.forms import SubmissionForm
+from django.http import JsonResponse
 # Create your views here.
 
 
@@ -139,3 +140,22 @@ def submit_assignment(request, token, assignment_id):
         print(e, "Here ---<")
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('studentDashboard'))
+
+
+def get_answer(request, token, assignment_id):
+    context = {
+        'error': False
+    }
+    try:
+        course_reg = validate_access(token, request, 'student')
+        error, value = fetch_answer_to_this_assignment(
+            request.user.student, assignment_id, 'student')
+        print(error, value, assignment_id, "Na him be that")
+        if not error:
+            context['submitted_date'] = value.submission_date
+            context['answer'] = value.answer
+        context['error'] = error
+    except Exception as e:
+        print(e, "Here ---<")
+        context['error'] = True
+    return JsonResponse(context, safe=True)

@@ -106,7 +106,23 @@
         window.location = link;
       }else{
         //Display modal
-        alert("Modal en route")
+        var id = $(this).data('id');
+        $.ajax({
+          type: 'GET',
+          url: '{% url "get_answer" "token" 123 %}'.replace('token', token).replace(123, id),
+          dataType: 'json',
+          success: function(response) {
+            console.log(response)
+              if (response.error) {
+                swal("Error", "Access Denied", "error");
+                  toastr.error(errmsg, "Preview Error")
+              } else {
+                  $('#answer_modal').modal('show');
+                  $('#submitted_date').html(response.submission_date)
+                  $('#modal_body').html(response.answer);
+              }
+          }
+      });
 
       }
 
@@ -118,7 +134,7 @@
 {% endblock custom_js %}
 
 {% block modal %}
-<div class="modal fade" id="assignment_modal">
+<div class="modal fade" id="answer_modal">
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
@@ -127,11 +143,10 @@
                 <span aria-hidden="true">&times;</span></button>
               </div>
               <div class="modal-body">
-                <form action="{% url 'updateCourse' %}" method="post">
-              {% csrf_token %}
-              <span id="form_body"></span>
-              <div class="form-group">
-                <input type="submit" value="Submit" class="btn btn-info">
+                <span id="submitted_date"></span>
+
+                <div class="form-group">
+                <span id="modal_body"></span>
               </div>
             </form>
           </div>
