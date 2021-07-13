@@ -116,7 +116,7 @@ def submit_assignment(request, token, assignment_id):
         assignment = Assignment.objects.get(
             session=session, course=course_reg.course, id=assignment_id)
         # Check if this assignment has expire
-        if assignment.expiry_date > datetime.today():
+        if datetime.today().date() > assignment.expiry_date:
             messages.error(
                 request, "You are trying to submit an assignment that has already pass the submission date")
             return redirect(reverse('studentDashboard'))
