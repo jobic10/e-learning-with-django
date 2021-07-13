@@ -121,6 +121,14 @@ def submit_assignment(request, token, assignment_id):
                 request, "You are trying to submit an assignment that has already pass the submission date")
             return redirect(reverse('studentDashboard'))
         form = SubmissionForm(request.POST or None)
+        if request.method == 'POST':
+            if form.is_valid():
+                submission = form.save(commit=False)
+                submission.assignment = assignment
+                submission.student = request.user.student
+                submission.save()
+                messages.success(request, "Assignment submitted")
+                return redirect(reverse('studentActiveAssignments', args=[token]))
         context = {
             'form': form,
             'course': course_reg,
