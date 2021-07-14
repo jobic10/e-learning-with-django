@@ -149,7 +149,7 @@ def get_answer(request, token, assignment_id):
     try:
         course_reg = validate_access(token, request, 'student')
         error, value = fetch_answer_to_this_assignment(
-            request.user.student, assignment_id, 'student')
+            request.user.student, assignment_id)
         print(error, value, assignment_id, "Na him be that")
         if not error:
             context['submitted_date'] = format_date(value.submission_date)
