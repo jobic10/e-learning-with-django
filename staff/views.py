@@ -3,7 +3,7 @@ from django.contrib import messages
 from administrator.models import Course
 from django.db.models import Q, OuterRef, Exists
 from .models import CourseAllocation
-from e_learning.functions import get_session, validate_access
+from e_learning.functions import get_session, validate_access, fetch_answer_to_this_assignment, format_date
 from student.models import CourseRegistration
 from classroom.models import *
 from classroom.forms import *
@@ -214,7 +214,7 @@ def view_submission(request, token, assignment_id):
         course_reg = validate_access(token, request, 'staff')
         assignment = Assignment.objects.get(
             id=assignment_id, course=course_reg.course, session=get_session())
-        submissions = Submission.objects.get(assignment=assignment)
+        submissions = Submission.objects.filter(assignment=assignment)
         context = {
             'submissions': submissions,
             'course': course_reg
@@ -224,3 +224,23 @@ def view_submission(request, token, assignment_id):
         print(e, "Here --- <")
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('staffDashboard'))
+
+
+def get_student_answer(request, token, submission_id):
+    context = {
+        'error': False
+    }
+    try:
+        course_reg = validate_access(token, request, 'staff')
+        submission = Submission.objects.get(
+            id=submission_id, assignment__course=course_reg.course)
+        error, value = fetch_answer_to_this_assignment(
+            submission.student, submission.assignment.id)
+        if not error:
+            context['submitted_date'] = format_date(value.submission_date)
+            context['answer'] = value.answer
+        context['error'] = error
+    except Exception as e:
+        print(e, "Here ---<")
+        context['error'] = True
+    return JsonResponse(context, safe=True)

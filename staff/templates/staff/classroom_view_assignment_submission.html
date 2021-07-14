@@ -17,37 +17,25 @@
                 <div class="col-sm-12">
                   <div class="card mb-3 mb-sm-0">
                     <div class="card-body py-3 px-4">
-                        <p class="m-0 survey-head">All Assignments</p>
+                        <p class="m-0 survey-head">All Submissions</p>
                         <hr>
                         <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                           <table class="table-striped table">
                             <tr>
                               <th>SN</th>
-                              <th>Title</th>
+                              <th>Student</th>
                               <th>Submission Date</th>
-                              <th>Status</th>
-                              <th>Actions</th>
+                              <th>Action</th>
                             </tr>
                             {% now "Y-m-d" as todays_date %}
 
-                            {% for assignment in assignments  %}
+                            {% for submission in submissions  %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td>{{ assignment.title }}</td>
-                                <td>{{ assignment.expiry_date }}</td>
+                                <td>{{ submission.student }}</td>
+                                <td>{{ submission.submission_date }}</td>
                                 <td>
-                                  
-                                  {% if todays_date <= assignment.expiry_date|date:"Y-m-d" %}
-                                  <label class="badge badge-success">Active</label>
-                                  {% else %}
-                                  <label class="badge badge-danger">Expired</label>
-                                  {% endif %}
-                                  
-                                </td>
-                                <td>
-                                  <button class="btn assignment btn-secondary" data-action='preview' data-id="{{ assignment.id }}" >Preview</button> -
-                                  <button class="btn assignment btn-primary" data-action="submission" data-id="{{ assignment.id }}" >Submissions ({{ assignment.id|assignment_received }}) </button> - 
-                                  <button class="btn assignment btn-secondary" data-action="edit" data-id="{{ assignment.id }}" >Edit</button>
+                                  <button class="btn submission btn-secondary" data-name="{{ submission.student }}" data-action='preview' data-id="{{ submission.id }}" >Preview</button>
                                 </td>
                               </tr>
                               {% endfor %}
@@ -70,38 +58,46 @@
 
 
 {% block custom_js %}
-  <script>
-    $(function() {
+<script>
+  $(function() {
 
-      $(document).on('click', '.assignment', function(e) {
-     
-      e.preventDefault();
+    $(document).on('click', '.submission', function(e) {
+   
+    e.preventDefault();
+    var id = $(this).data('id');
+    var name = $(this).data('name');
+    var token = location.pathname.split("/").slice(-4)[0].replace(/^\/|\/$/g, '');
       var id = $(this).data('id');
-      var action = $(this).data('action');
-      var token = location.pathname.split("/").slice(-3)[0].replace(/^\/|\/$/g, '');
-      if (action=='edit'){
+      $.ajax({
+        type: 'GET',
+        url: '{% url "get_student_answer" "token" 123 %}'.replace('token', token).replace(123, id),
+        dataType: 'json',
+        success: function(response) {
+          console.log(response)
+            if (response.error) {
+              swal("Error", "Access Denied", "error");
+                toastr.error(errmsg, "Preview Error")
+            } else {
+                $('#answer_modal').modal('show');
+                $('#submitted_date').html(response.submitted_date)
+                $('#modal_body').html(response.answer);
+                $('#student_name').html(name);
 
-        var link = '{% url "edit_assignment_form" "token" 123 %}'.replace('token', token).replace(123, id);
-        window.location = link;
-      }else if (action == 'preview'){
+            }
+        }
+    });
 
-      }else{
-        //submission
-        var link = '{% url "view_submission" "token" 123 %}'.replace('token', token).replace(123, id);
+    
 
-        window.location = link;
-
-      }
-
-      
+    
 
 });
 });
-  </script>
+</script>
 {% endblock custom_js %}
 
 {% block modal %}
-<div class="modal fade" id="assignment_modal">
+<div class="modal fade" id="answer_modal">
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
@@ -110,11 +106,13 @@
                 <span aria-hidden="true">&times;</span></button>
               </div>
               <div class="modal-body">
-                <form action="{% url 'updateCourse' %}" method="post">
-              {% csrf_token %}
-              <span id="form_body"></span>
-              <div class="form-group">
-                <input type="submit" value="Submit" class="btn btn-info">
+<label for="" class="badge badge-info">Submission Date/Time: </label>
+
+                <div id="submitted_date"></div>
+<hr>
+<label for="" class="badge badge-info"><span id="student_name"></span>'s Answer: </label>
+                <div class="form-group">
+                <span id="modal_body"></span>
               </div>
             </form>
           </div>
