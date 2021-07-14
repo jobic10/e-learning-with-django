@@ -210,4 +210,17 @@ def edit_assignment_form(request, token, assignment_id):
 
 
 def view_submission(request, token, assignment_id):
-    pass
+    try:
+        course_reg = validate_access(token, request, 'staff')
+        assignment = Assignment.objects.get(
+            id=assignment_id, course=course_reg.course, session=get_session())
+        submissions = Submission.objects.get(assignment=assignment)
+        context = {
+            'submissions': submissions,
+            'course': course_reg
+        }
+        return render(request, path("classroom_view_assignment_submission"), context)
+    except Exception as e:
+        print(e, "Here --- <")
+        messages.error(request, "Access to this resource is denied")
+        return redirect(reverse('staffDashboard'))
