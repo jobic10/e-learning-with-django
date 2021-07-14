@@ -60,7 +60,7 @@ def validate_access(token, request, user_type='student'):
         return value
 
 
-def fetch_answer_to_this_assignment(student, assignment_id, user_type='student'):
+def fetch_answer_to_this_assignment(student, assignment_id):
     error = False
     value = None
     try:
