@@ -217,7 +217,8 @@ def view_submission(request, token, assignment_id):
         submissions = Submission.objects.filter(assignment=assignment)
         context = {
             'submissions': submissions,
-            'course': course_reg
+            'course': course_reg,
+            'assignment_name': assignment.title
         }
         return render(request, path("classroom_view_assignment_submission"), context)
     except Exception as e:
