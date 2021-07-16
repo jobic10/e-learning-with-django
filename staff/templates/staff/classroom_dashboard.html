@@ -66,7 +66,14 @@
                         {% for post in posts  %}
                         <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                          <div class="col-md-12 grid-margin stretch-card">
+                          {% if forloop.counter == 1 %}
                           <div class="card">
+                            
+                          {% else %}
+                          <div class="card mt-n4">
+                            
+                          {% endif %}
+                          
                             <div class="card-body">
                               <h4 class="card-title">{{ post.user }} || {{ post.date }}</h4>
                               <div class="media">
