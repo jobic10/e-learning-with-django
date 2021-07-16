@@ -245,3 +245,17 @@ def get_student_answer(request, token, submission_id):
         print(e, "Here ---<")
         context['error'] = True
     return JsonResponse(context, safe=True)
+
+
+def create_new_post(request, token):
+    try:
+        course_reg = validate_access(token, request, 'staff')
+        form = NewPostForm(request.POST or None)
+        context = {
+            'form': form
+        }
+        return render(request, path("classroom_post"), context)
+    except Exception as e:
+        print(e, "Here --- <")
+        messages.error(request, "Access to this resource is denied")
+        return redirect(reverse('staffDashboard'))

@@ -60,7 +60,8 @@
                 <div class="col-sm-8">
                   <div class="card mb-3 mb-sm-0">
                     <div class="card-body py-3 px-4">
-                        <p class="m-0 survey-head">Stream</p>
+                        <p class="m-0 survey-head">Stream <span><button data-what='new_post' class="mb-1 btn launch btn-outline-primary btn-sm float-right" >
+                          <i class='mdi mdi-plus'></i> New Post</button></span></p>
                         <hr>
                         <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                           <div class="col-md-12 grid-margin stretch-card">
@@ -157,6 +158,8 @@
         window.location = '{% url "get_assignment_form" "123" %}'.replace('123', token);
       }else if(title == 'view_all_assignment'){
         window.location = '{% url "view_all_assignments" "123" %}'.replace('123', token);
+      }else{
+        window.location = '{% url "create_new_post" "123" %}'.replace('123', token);
       }
   });
    $(document).on('click', '.delete', function(e) {

@@ -24,3 +24,9 @@ class SubmissionForm(FormSettings):
     class Meta:
         model = Submission
         fields = ['answer']
+
+
+class NewPostForm(FormSettings):
+    class Meta:
+        model = Stream
+        fields = ['message']
