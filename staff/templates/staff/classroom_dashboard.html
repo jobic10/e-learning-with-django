@@ -60,29 +60,76 @@
                 <div class="col-sm-8">
                   <div class="card mb-3 mb-sm-0">
                     <div class="card-body py-3 px-4">
-                        <p class="m-0 survey-head">Your Courses</p>
+                        <p class="m-0 survey-head">Stream</p>
                         <hr>
                         <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                            <table class="table-striped table">
-                              <tr>
-                                <th>SN</th>
-                                <th>Name/Code</th>
-                                <th>Lecturer</th>
-                                <th>Department</th>
-                                <th>Unit</th>
-                                <th>Stream</th>
-                              </tr>
-                              {% for selected_course in selected_courses  %}
-                                <tr>
-                                  <td>{{ forloop.counter }}</td>
-                                  <td>{{ selected_course.course.name }} / {{ selected_course.course.code }}</td>
-                                  <td>{{ selected_course.course.id|lecturer }}</td>
-                                  <td>{{ selected_course.course.department }}</td>
-                                  <td>{{ selected_course.course.unit }}</td>
-                                  <td> <a href="{% url 'studentClassroom' selected_course.course.id|encrypt %}" class="btn btn-info">Access</a> </td>
-                                </tr>
-                              {% endfor %}
-                            </table>
+                          <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card">
+                              <div class="card-body">
+                                <h4 class="card-title">Top aligned media</h4>
+                                <div class="media">
+                                  <i class="mdi mdi-earth icon-md text-info d-flex align-self-start mr-3"></i>
+                                  <div class="media-body">
+                                    <p class="card-text"> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque. </p>
+                             <!-- Start -->
+                             <div class="col-xl-12 grid-margin stretch-card">
+                              <!--activity-->
+                              <div class="card">
+                                <div class="card-body">
+                                  <h4 class="card-title">
+                                    <span class="d-flex justify-content-between">
+                                      <span>Activity</span>
+                                      <span class="dropdown dropleft d-block">
+                                        <span id="dropdownMenuButton1" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                          <span><i class="mdi mdi-dots-horizontal"></i></span>
+                                        </span>
+                                        <span class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                          <a class="dropdown-item" href="#">Contact</a>
+                                          <a class="dropdown-item" href="#">Helpdesk</a>
+                                          <a class="dropdown-item" href="#">Chat with us</a>
+                                        </span>
+                                      </span>
+                                    </span>
+                                  </h4>
+                                  <ul class="gradient-bullet-list border-bottom">
+                                    <li>
+                                      <h6 class="mb-0"> It's awesome when we find a new solution </h6>
+                                      <p class="text-muted">2h ago</p>
+                                    </li>
+                                    <li>
+                                      <h6 class="mb-0">Report has been updated</h6>
+                                      <p class="text-muted">
+                                        <span>2h ago</span>
+                                        <span class="d-inline-block">
+                                          <span class="d-flex d-inline-block">
+                                            <img class="ml-1" src="assets/images/faces/face1.jpg" alt="">
+                                            <img class="ml-1" src="assets/images/faces/face10.jpg" alt="">
+                                            <img class="ml-1" src="assets/images/faces/face14.jpg" alt="">
+                                          </span>
+                                        </span>
+                                      </p>
+                                    </li>
+                                    <li>
+                                      <h6 class="mb-0"> Analytics dashboard has been created#Slack </h6>
+                                      <p class="text-muted">2h ago</p>
+                                    </li>
+                                    <li>
+                                      <h6 class="mb-0"> It's awesome when we find a new solution </h6>
+                                      <p class="text-muted">2h ago</p>
+                                    </li>
+                                  </ul>
+                                  <a class="text-black mt-3 mb-0 d-block h6" href="#">View all <i class="mdi mdi-chevron-right"></i></a>
+                                </div>
+                              </div>
+                              <!--activity ends-->
+                            </div>
+                             <!-- End -->
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           </div>
                       </div>
                     </div>
