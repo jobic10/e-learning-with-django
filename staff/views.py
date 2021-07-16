@@ -255,6 +255,14 @@ def create_new_post(request, token):
             'form': form,
             'course': course_reg
         }
+        if request.method == 'POST':
+            if form.is_valid():
+                form.save()
+                messages.success(request, "New Post Created")
+                return redirect(reverse('staffDashboard'))
+            else:
+                messages.error(request, "Form invalid")
+
         return render(request, path("classroom_post"), context)
     except Exception as e:
         print(e, "Here --- <")
