@@ -30,3 +30,6 @@ class NewPostForm(FormSettings):
     class Meta:
         model = Stream
         fields = ['message']
+        widgets = {
+            'message': forms.Textarea()
+        }

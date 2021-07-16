@@ -2,7 +2,7 @@ from django import template
 from django.forms.fields import CheckboxInput
 from e_learning.functions import get_session, format_date
 from staff.models import CourseAllocation
-from classroom.models import Submission, Assignment
+from classroom.models import Submission, Assignment, StreamReply
 register = template.Library()
 
 
@@ -58,3 +58,23 @@ def when_did_i_submit(student, assignment_id):
     except:
         output = ""
     return output
+
+
+@register.filter(name='little')
+def little(text):
+    if len(text) > 80:
+        return str(text[:80]) + "..."
+    else:
+        return text
+
+
+@register.filter(name='comments')
+def comments(the_id):
+    count = StreamReply.objects.filter(id=the_id).count()
+    if count == 1:
+        text = "View the only comment"
+    elif count > 1:
+        text = f"View all {count} comments"
+    else:
+        text = "No comments yet, be the first"
+    return text

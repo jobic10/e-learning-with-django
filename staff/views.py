@@ -128,12 +128,26 @@ def staffClassroom(request, token):
         #     staff=staff, course_id=course_id, session=session, approved=True)
         assignments = Assignment.objects.filter(
             session=session, course=course_reg.course)
+        posts = Stream.objects.all().order_by('-id')
+        form = NewPostForm(request.POST or None)
+        if request.method == 'POST':
+            if form.is_valid():
+                this_form = form.save(commit=False)
+                this_form.user = request.user
+                this_form.save()
+                messages.success(request, "New Post Created")
+                return redirect(reverse('staffClassroom', args=[token]))
+            else:
+                messages.error(request, "Form invalid")
+
         context = {
             'course': course_reg,
             'no_of_students': CourseRegistration.objects.filter(course=course_reg.course, approved=True, session=session).count(),
             'no_of_assignments': assignments.count(),
             'expired_assignments': assignments.filter(expiry_date__lt=datetime.today()).count(),
             'active_assignments': assignments.filter(expiry_date__gt=datetime.today()).count(),
+            'posts': posts,
+            'form': form
         }
         return render(request, path("classroom_dashboard"), context)
     except Exception as e:

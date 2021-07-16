@@ -63,75 +63,26 @@
                         <p class="m-0 survey-head">Stream <span><button data-what='new_post' class="mb-1 btn launch btn-outline-primary btn-sm float-right" >
                           <i class='mdi mdi-plus'></i> New Post</button></span></p>
                         <hr>
+                        {% for post in posts  %}
                         <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                          <div class="col-md-12 grid-margin stretch-card">
-                            <div class="card">
-                              <div class="card-body">
-                                <h4 class="card-title">Top aligned media</h4>
-                                <div class="media">
-                                  <i class="mdi mdi-earth icon-md text-info d-flex align-self-start mr-3"></i>
-                                  <div class="media-body">
-                                    <p class="card-text"> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque. </p>
-                             <!-- Start -->
-                             <div class="col-xl-12 grid-margin stretch-card">
-                              <!--activity-->
-                              <div class="card">
-                                <div class="card-body">
-                                  <h4 class="card-title">
-                                    <span class="d-flex justify-content-between">
-                                      <span>Activity</span>
-                                      <span class="dropdown dropleft d-block">
-                                        <span id="dropdownMenuButton1" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                          <span><i class="mdi mdi-dots-horizontal"></i></span>
-                                        </span>
-                                        <span class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                          <a class="dropdown-item" href="#">Contact</a>
-                                          <a class="dropdown-item" href="#">Helpdesk</a>
-                                          <a class="dropdown-item" href="#">Chat with us</a>
-                                        </span>
-                                      </span>
-                                    </span>
-                                  </h4>
-                                  <ul class="gradient-bullet-list border-bottom">
-                                    <li>
-                                      <h6 class="mb-0"> It's awesome when we find a new solution </h6>
-                                      <p class="text-muted">2h ago</p>
-                                    </li>
-                                    <li>
-                                      <h6 class="mb-0">Report has been updated</h6>
-                                      <p class="text-muted">
-                                        <span>2h ago</span>
-                                        <span class="d-inline-block">
-                                          <span class="d-flex d-inline-block">
-                                            <img class="ml-1" src="assets/images/faces/face1.jpg" alt="">
-                                            <img class="ml-1" src="assets/images/faces/face10.jpg" alt="">
-                                            <img class="ml-1" src="assets/images/faces/face14.jpg" alt="">
-                                          </span>
-                                        </span>
-                                      </p>
-                                    </li>
-                                    <li>
-                                      <h6 class="mb-0"> Analytics dashboard has been created#Slack </h6>
-                                      <p class="text-muted">2h ago</p>
-                                    </li>
-                                    <li>
-                                      <h6 class="mb-0"> It's awesome when we find a new solution </h6>
-                                      <p class="text-muted">2h ago</p>
-                                    </li>
-                                  </ul>
-                                  <a class="text-black mt-3 mb-0 d-block h6" href="#">View all <i class="mdi mdi-chevron-right"></i></a>
-                                </div>
-                              </div>
-                              <!--activity ends-->
-                            </div>
-                             <!-- End -->
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                         <div class="col-md-12 grid-margin stretch-card">
+                          <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">{{ post.user }} || {{ post.date }}</h4>
+                              <div class="media">
+                                <i class="mdi mdi-earth icon-md text-info d-flex align-self-start mr-3"></i>
+                                <div class="media-body">
+                                  <p class="card-text"> {{ post.message|little }} </p>
+                                  <p class="mt-n4"><a href=""><small class="text-muted">{{ post.id|comments }}</small></a></p>
 
+                                </div>
+                              </div>
+                            </div>
                           </div>
+                        </div>
+                      </div>
+                         {% endfor %}
+
                       </div>
                     </div>
                   </div>
@@ -159,7 +110,12 @@
       }else if(title == 'view_all_assignment'){
         window.location = '{% url "view_all_assignments" "123" %}'.replace('123', token);
       }else{
-        window.location = '{% url "create_new_post" "123" %}'.replace('123', token);
+           $('#post_modal').modal('show');
+             
+           /*$('#submitted_date').html(response.submitted_date)
+                $('#modal_body').html(response.answer);
+                $('#student_name').html(name);*/
+
       }
   });
    $(document).on('click', '.delete', function(e) {
@@ -182,9 +138,8 @@
 });
   </script>
 {% endblock custom_js %}
-{% comment %}
 {% block modal %}
-<div class="modal fade" id="assignment_modal">
+<div class="modal fade" id="post_modal">
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
@@ -193,9 +148,16 @@
                 <span aria-hidden="true">&times;</span></button>
               </div>
               <div class="modal-body">
-                <form action="{% url 'updateCourse' %}" method="post">
+                <form action="" method="post">
               {% csrf_token %}
-              <span id="form_body"></span>
+              <span id="form_body">
+                {% for field in form %}
+                <div class="form-group">
+                <b>{{field.label_tag}}</b>
+                <span class="text-danger">{{field.errors}}</span> {{field}}
+                </div>  
+                {% endfor %} 
+              </span>
               <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-info">
               </div>
@@ -208,4 +170,3 @@
   </div>
 </div>
 {% endblock modal %}
-{% endcomment %}

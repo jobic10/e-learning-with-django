@@ -27,7 +27,7 @@ class Submission(models.Model):
 
 
 class Stream(models.Model):
-    message = RichTextUploadingField()
+    message = models.CharField(max_length=200)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
 
