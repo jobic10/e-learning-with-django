@@ -261,7 +261,7 @@ def create_new_post(request, token):
                 this_form.user = request.user
                 this_form.save()
                 messages.success(request, "New Post Created")
-                return redirect(reverse('staffDashboard'))
+                return redirect(reverse('staffClassroom', args=[token]))
             else:
                 messages.error(request, "Form invalid")
 
@@ -269,4 +269,4 @@ def create_new_post(request, token):
     except Exception as e:
         print(e, "Here --- <")
         messages.error(request, "Access to this resource is denied")
-        return redirect(reverse('staffDashboard'))
+        return redirect(reverse('staffClassroom', args=[token]))
