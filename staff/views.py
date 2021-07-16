@@ -252,7 +252,8 @@ def create_new_post(request, token):
         course_reg = validate_access(token, request, 'staff')
         form = NewPostForm(request.POST or None)
         context = {
-            'form': form
+            'form': form,
+            'course': course_reg
         }
         return render(request, path("classroom_post"), context)
     except Exception as e:
