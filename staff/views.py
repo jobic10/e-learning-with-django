@@ -257,7 +257,9 @@ def create_new_post(request, token):
         }
         if request.method == 'POST':
             if form.is_valid():
-                form.save()
+                this_form = form.save(commit=False)
+                this_form.user = request.user
+                this_form.save()
                 messages.success(request, "New Post Created")
                 return redirect(reverse('staffDashboard'))
             else:
