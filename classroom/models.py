@@ -28,11 +28,11 @@ class Submission(models.Model):
 
 class Stream(models.Model):
     message = RichTextUploadingField()
-    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
 
 
 class StreamReply(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     message = models.CharField(max_length=200)
     date = models.DateTimeField(auto_now_add=True)
