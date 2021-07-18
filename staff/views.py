@@ -273,6 +273,7 @@ def classroom_view_post(request, token, stream_id):
         context = {
             'replies': replies,
             'course': course_reg,
+            'post': stream
         }
         return render(request, path("classroom_view_post"), context)
     except Exception as e:
