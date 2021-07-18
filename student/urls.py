@@ -13,4 +13,6 @@ urlpatterns = [
          views.submit_assignment, name='studentSubmitAssignments'),
     path('classroom/<token>/assignment/<int:assignment_id>/answer',
          views.get_answer, name='get_answer'),
+    path("classroom/<token>/stream/all/<int:stream_id>",
+         views.student_view_post, name='student_view_post'),
 ]

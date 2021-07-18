@@ -4,9 +4,9 @@ from administrator.models import Course
 from django.db.models import Q, OuterRef, Exists
 from e_learning.functions import get_session, validate_access, fetch_answer_to_this_assignment, format_date
 from .models import CourseRegistration
-from classroom.models import Assignment, Submission
+from classroom.models import *
 from datetime import datetime
-from classroom.forms import SubmissionForm
+from classroom.forms import *
 from django.http import JsonResponse
 # Create your views here.
 
@@ -77,6 +77,20 @@ def studentClassroom(request, token):
         student = request.user.student
         assignments = Assignment.objects.filter(
             session=session, course=course_reg.course)
+        posts = Stream.objects.filter(
+            session=session, course=course_reg.course).order_by('-id')
+        form = NewPostForm(request.POST or None)
+        if request.method == 'POST':
+            if form.is_valid():
+                this_form = form.save(commit=False)
+                this_form.user = request.user
+                this_form.course = course_reg.course
+                this_form.session = session
+                this_form.save()
+                messages.success(request, "New Post Created")
+                return redirect(reverse('studentClassroom', args=[token]))
+            else:
+                messages.error(request, "Form invalid")
         context = {
             'course': course_reg,
             'no_of_students': CourseRegistration.objects.filter(course=course_reg.course, approved=True, session=session).count(),
@@ -84,6 +98,8 @@ def studentClassroom(request, token):
             'expired_assignments': assignments.filter(expiry_date__lt=datetime.today()).count(),
             'active_assignments': assignments.filter(expiry_date__gt=datetime.today()).count(),
             'my_submission': Submission.objects.filter(student=student, assignment__session=session).count(),
+            'posts': posts,
+            'form': form
 
         }
         return render(request, path("classroom_dashboard"), context)
@@ -159,3 +175,33 @@ def get_answer(request, token, assignment_id):
         print(e, "Here ---<")
         context['error'] = True
     return JsonResponse(context, safe=True)
+
+
+def student_view_post(request, token, stream_id):
+    try:
+        course_reg = validate_access(token, request, 'student')
+        stream = Stream.objects.get(
+            id=stream_id, course=course_reg.course, session=get_session())
+        replies = StreamReply.objects.filter(stream=stream)
+        form = AddReplyForm(request.POST or None)
+        context = {
+            'replies': replies,
+            'course': course_reg,
+            'post': stream,
+            'form': form
+        }
+        if request.method == 'POST':
+            if form.is_valid():
+                this_form = form.save(commit=False)
+                this_form.user = request.user
+                this_form.stream = stream
+                this_form.save()
+                messages.success(request, "Comment added")
+                return redirect(reverse('student_view_post', args=[token, stream.id]))
+            else:
+                messages.error(request, "Error")
+        return render(request, path("classroom_view_post"), context)
+    except Exception as e:
+        print(e, "Here --- <")
+        messages.error(request, "Access to this resource is denied")
+        return redirect(reverse('student_view_post', args=[token, stream.id]))

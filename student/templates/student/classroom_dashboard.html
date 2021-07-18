@@ -55,43 +55,51 @@
                 </div>
               {% endif %}
 
-                <div class="col-sm-8">
-                  <div class="card mb-3 mb-sm-0">
-                    <div class="card-body py-3 px-4">
-                        <p class="m-0 survey-head">Your Courses</p>
-                        <hr>
-                        <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                            <table class="table-striped table">
-                              <tr>
-                                <th>SN</th>
-                                <th>Name/Code</th>
-                                <th>Lecturer</th>
-                                <th>Department</th>
-                                <th>Unit</th>
-                                <th>Stream</th>
-                              </tr>
-                              {% for selected_course in selected_courses  %}
-                                <tr>
-                                  <td>{{ forloop.counter }}</td>
-                                  <td>{{ selected_course.course.name }} / {{ selected_course.course.code }}</td>
-                                  <td>{{ selected_course.course.id|lecturer }}</td>
-                                  <td>{{ selected_course.course.department }}</td>
-                                  <td>{{ selected_course.course.unit }}</td>
-                                  <td> <a href="{% url 'studentClassroom' selected_course.course.id|encrypt %}" class="btn btn-info">Access</a> </td>
-                                </tr>
-                              {% endfor %}
-                            </table>
+              <div class="col-sm-8">
+                <div class="card mb-3 mb-sm-0">
+                  <div class="card-body py-3 px-4">
+                      <p class="m-0 survey-head">Stream <span><button data-what='new_post' class="mb-1 btn launch btn-outline-primary btn-sm float-right" >
+                        <i class='mdi mdi-plus'></i> New Post</button></span></p>
+                      <hr>
+                      {% for post in posts  %}
+                      <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                       <div class="col-md-12 grid-margin stretch-card">
+                        {% if forloop.counter == 1 %}
+                        <div class="card">
+                          
+                        {% else %}
+                        <div class="card mt-n4">
+                          
+                        {% endif %}
+                        
+                          <div class="card-body pb-0">
+                            <h4 class="card-title">{{ post.user }} || {{ post.date }}</h4>
+                            <div class="media">
+                              <i class="mdi mdi-earth icon-md text-info d-flex align-self-start mr-3"></i>
+                              <div class="media-body">
+                                <p class="card-text"> {{ post.message|little }} </p>
+                                <p class="mt-n4"><a href="" class='launch' data-id='{{ post.id }}' data-what='replies'><small class="text-muted">{{ post.id|comments }}</small></a></p>
+
+                              </div>
+                            </div>
                           </div>
+                        </div>
                       </div>
                     </div>
+                    {% empty %}
+                    <h3 class="alert alert-primary">No Stream Yet</h3>
+                       {% endfor %}
+
+                    </div>
                   </div>
-            </div>
-            
-          
+                </div>
           </div>
+          
+        
         </div>
       </div>
     </div>
+  </div>
 
 <!-- main-panel ends -->
 {% endblock content %}
@@ -101,10 +109,23 @@
 {% block custom_js %}
   <script>
     $(function() {
-    $(document).on('click', '.assignment', function(e) {
-      e.preventDefault();
       var token = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
-       window.location = '{% url "studentActiveAssignments" "123" %}'.replace('123', token);
+      $(document).on('click', '.assignment', function(e) {
+        e.preventDefault();
+         window.location = '{% url "studentActiveAssignments" "123" %}'.replace('123', token);
+    });
+    $(document).on('click', '.launch', function(e) {
+      e.preventDefault();
+      var title = $(this).data('what');
+          if (title == 'replies'){
+        var id = $(this).data('id');
+
+            window.location = '{% url "student_view_post" "token" 123 %}'.replace('token', token).replace(123, id);
+
+          }else{
+
+            $('#post_modal').modal('show');
+          }
   });
    $(document).on('click', '.delete', function(e) {
      
@@ -129,19 +150,25 @@
 {% endblock custom_js %}
 
 {% block modal %}
-<div class="modal fade" id="edit_form">
+<div class="modal fade" id="post_modal">
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title float-left"><b>Update Course</b></h4>
+            <h4 class="modal-title float-left" id='modal_title'><b></b></h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
               </div>
               <div class="modal-body">
-                <form action="{% url 'updateCourse' %}" method="post">
+                <form action="" method="post">
               {% csrf_token %}
-              <input type="hidden" name="course_id" id="course_id">
-              <span id="form_body"></span>
+              <span id="form_body">
+                {% for field in form %}
+                <div class="form-group">
+                <b>{{field.label_tag}}</b>
+                <span class="text-danger">{{field.errors}}</span> {{field}}
+                </div>  
+                {% endfor %} 
+              </span>
               <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-info">
               </div>
