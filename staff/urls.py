@@ -19,7 +19,6 @@ urlpatterns = [
          views.view_submission, name="view_submission"),
     path("classroom/<str:token>/assignment/answer/<int:submission_id>",
          views.get_student_answer, name='get_student_answer'),
-    path("classroom/<str:token>/post/new",
-         views.create_new_post, name='create_new_post'),
+
 
 ]

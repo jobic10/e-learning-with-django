@@ -259,28 +259,3 @@ def get_student_answer(request, token, submission_id):
         print(e, "Here ---<")
         context['error'] = True
     return JsonResponse(context, safe=True)
-
-
-def create_new_post(request, token):
-    try:
-        course_reg = validate_access(token, request, 'staff')
-        form = NewPostForm(request.POST or None)
-        context = {
-            'form': form,
-            'course': course_reg
-        }
-        if request.method == 'POST':
-            if form.is_valid():
-                this_form = form.save(commit=False)
-                this_form.user = request.user
-                this_form.save()
-                messages.success(request, "New Post Created")
-                return redirect(reverse('staffClassroom', args=[token]))
-            else:
-                messages.error(request, "Form invalid")
-
-        return render(request, path("classroom_post"), context)
-    except Exception as e:
-        print(e, "Here --- <")
-        messages.error(request, "Access to this resource is denied")
-        return redirect(reverse('staffClassroom', args=[token]))
