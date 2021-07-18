@@ -81,9 +81,8 @@
   <script>
     $(function() {
       {% if request.method == 'POST' %}
-$('#comment_modal').modal('show');
-  
-{% endif %}
+          $('#comment_modal').modal('show');
+      {% endif %}
       $(document).on('click', '.launch', function(e) {
      
       e.preventDefault();
