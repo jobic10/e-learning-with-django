@@ -33,3 +33,12 @@ class NewPostForm(FormSettings):
         widgets = {
             'message': forms.Textarea()
         }
+
+
+class AddReplyForm(FormSettings):
+    class Meta:
+        model = StreamReply
+        fields = ['message']
+        widgets = {
+            'message': forms.Textarea()
+        }
