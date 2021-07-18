@@ -128,13 +128,15 @@ def staffClassroom(request, token):
         #     staff=staff, course_id=course_id, session=session, approved=True)
         assignments = Assignment.objects.filter(
             session=session, course=course_reg.course)
-        posts = Stream.objects.all().order_by('-id')
+        posts = Stream.objects.filter(
+            session=session, course=course_reg.course).order_by('-id')
         form = NewPostForm(request.POST or None)
         if request.method == 'POST':
             if form.is_valid():
                 this_form = form.save(commit=False)
                 this_form.user = request.user
                 this_form.course = course_reg.course
+                this_form.session = session
                 this_form.save()
                 messages.success(request, "New Post Created")
                 return redirect(reverse('staffClassroom', args=[token]))
