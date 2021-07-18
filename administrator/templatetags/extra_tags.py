@@ -70,7 +70,7 @@ def little(text):
 
 @register.filter(name='comments')
 def comments(the_id):
-    count = StreamReply.objects.filter(id=the_id).count()
+    count = StreamReply.objects.filter(stream__id=the_id).count()
     if count == 1:
         text = "View the only comment"
     elif count > 1:
