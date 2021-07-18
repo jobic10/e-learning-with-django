@@ -30,7 +30,7 @@ class Stream(models.Model):
     message = models.CharField(max_length=200)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    session = models.ForeignKey(Session, null=True, on_delete=models.CASCADE)
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
 
