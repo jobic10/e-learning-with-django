@@ -80,7 +80,7 @@
                                 <i class="mdi mdi-earth icon-md text-info d-flex align-self-start mr-3"></i>
                                 <div class="media-body">
                                   <p class="card-text"> {{ post.message|little }} </p>
-                                  <p class="mt-n4"><a href=""><small class="text-muted">{{ post.id|comments }}</small></a></p>
+                                  <p class="mt-n4"><a href="" class='launch' data-id='{{ post.id }}' data-what='replies'><small class="text-muted">{{ post.id|comments }}</small></a></p>
 
                                 </div>
                               </div>
@@ -118,6 +118,10 @@
         window.location = '{% url "get_assignment_form" "123" %}'.replace('123', token);
       }else if(title == 'view_all_assignment'){
         window.location = '{% url "view_all_assignments" "123" %}'.replace('123', token);
+      }else if (title == 'replies'){
+        var id = $(this).data('id');
+        window.location = '{% url "classroom_view_post" "token" 123 %}'.replace('token', token).replace(123, id);
+
       }else{
            $('#post_modal').modal('show');
              

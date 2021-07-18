@@ -262,3 +262,20 @@ def get_student_answer(request, token, submission_id):
         print(e, "Here ---<")
         context['error'] = True
     return JsonResponse(context, safe=True)
+
+
+def classroom_view_post(request, token, stream_id):
+    try:
+        course_reg = validate_access(token, request, 'staff')
+        stream = Stream.objects.get(
+            id=stream_id, course=course_reg.course, session=get_session())
+        replies = StreamReply.objects.filter(stream=stream)
+        context = {
+            'replies': replies,
+            'course': course_reg,
+        }
+        return render(request, path("classroom_view_post"), context)
+    except Exception as e:
+        print(e, "Here --- <")
+        messages.error(request, "Access to this resource is denied")
+        return redirect(reverse('staffDashboard'))

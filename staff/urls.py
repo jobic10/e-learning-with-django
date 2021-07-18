@@ -19,6 +19,8 @@ urlpatterns = [
          views.view_submission, name="view_submission"),
     path("classroom/<str:token>/assignment/answer/<int:submission_id>",
          views.get_student_answer, name='get_student_answer'),
+    path("classroom/<token>/stream/all/<int:stream_id>",
+         views.classroom_view_post, name='classroom_view_post'),
 
 
 ]
