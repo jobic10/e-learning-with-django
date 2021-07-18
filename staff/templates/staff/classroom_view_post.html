@@ -17,10 +17,11 @@
                 <div class="col-sm-12">
                   <div class="card mb-3 mb-sm-0">
                     <div class="card-body py-3 px-4">
-                        <p class="m-0 survey-head">{{ post.message }}
-                          {% if post.user == request.user %}
+                        <p class="m-0 survey-head">{% if post.user == request.user %}
                           (You)
-                        {% endif %}
+                          {% else %}
+                          {{ post.user }}
+                        {% endif %} || {{ post.date }}
                         <button data-what='post' class="btn float-right launch btn-outline-primary btn-sm" >
                           <i class='mdi mdi-comment-plus-outline'></i> Add a comment</button>
                         </p>
@@ -32,35 +33,24 @@
                               <div class="card-body">
                                 <h4 class="card-title">
                                   <span class="d-flex justify-content-between">
-                                   &nbsp;
+                                    {{ post.message }}
                                   </span>
                                 </h4>
                                 <ul class="gradient-bullet-list border-bottom">
+                                  {% for reply in  replies %}
                                   <li>
-                                    <h6 class="mb-0"> It's awesome when we find a new solution </h6>
-                                    <p class="text-muted">2h ago</p>
-                                  </li>
-                                  <li>
-                                    <h6 class="mb-0">Report has been updated</h6>
+                                    <h6 class="mb-0">{{ reply.message }}</h6>
                                     <p class="text-muted">
-                                      <span>2h ago</span>
+                                      <span>{{ reply.user }} || {{ reply.date }}</span>
                                       <span class="d-inline-block">
                                         <span class="d-flex d-inline-block">
-                                          <img class="ml-1" src="assets/images/faces/face1.jpg" alt="">
-                                          <img class="ml-1" src="assets/images/faces/face10.jpg" alt="">
-                                          <img class="ml-1" src="assets/images/faces/face14.jpg" alt="">
+                                          <img class="ml-1" src="{% static 'assets/images/faces/face1.jpg' %}" alt="">
                                         </span>
                                       </span>
                                     </p>
                                   </li>
-                                  <li>
-                                    <h6 class="mb-0"> Analytics dashboard has been created#Slack </h6>
-                                    <p class="text-muted">2h ago</p>
-                                  </li>
-                                  <li>
-                                    <h6 class="mb-0"> It's awesome when we find a new solution </h6>
-                                    <p class="text-muted">2h ago</p>
-                                  </li>
+                                  {% endfor %}
+                                
                                 </ul>
                                 <!-- <a class="text-black mt-3 mb-0 d-block h6" href="#">View all <i class="mdi mdi-chevron-right"></i></a> -->
                               </div>
