@@ -284,11 +284,11 @@ def classroom_view_post(request, token, stream_id):
                 this_form.stream = stream
                 this_form.save()
                 messages.success(request, "Comment added")
-                return redirect(reverse('classroom_view_post', args=[token]))
+                return redirect(reverse('classroom_view_post', args=[token, stream.id]))
             else:
                 messages.error(request, "Error")
         return render(request, path("classroom_view_post"), context)
     except Exception as e:
         print(e, "Here --- <")
         messages.error(request, "Access to this resource is denied")
-        return redirect(reverse('classroom_view_post', args=[token]))
+        return redirect(reverse('classroom_view_post', args=[token, stream.id]))
