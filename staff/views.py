@@ -134,6 +134,7 @@ def staffClassroom(request, token):
             if form.is_valid():
                 this_form = form.save(commit=False)
                 this_form.user = request.user
+                this_form.course = course_reg.course
                 this_form.save()
                 messages.success(request, "New Post Created")
                 return redirect(reverse('staffClassroom', args=[token]))
