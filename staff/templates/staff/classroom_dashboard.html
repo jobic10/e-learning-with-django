@@ -109,7 +109,12 @@
 
 
 {% block custom_js %}
-  <script>
+
+<script>
+    $(function() {
+    {% if request.method == 'POST' %}
+    $('#post_modal').modal('show');
+{% endif %}
     $(document).on('click', '.launch', function(e) {
     var token = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
       e.preventDefault();
@@ -149,6 +154,7 @@
       }
     });
 });
+    });
   </script>
 {% endblock custom_js %}
 {% block modal %}
