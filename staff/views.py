@@ -270,13 +270,25 @@ def classroom_view_post(request, token, stream_id):
         stream = Stream.objects.get(
             id=stream_id, course=course_reg.course, session=get_session())
         replies = StreamReply.objects.filter(stream=stream)
+        form = AddReplyForm(request.POST or None)
         context = {
             'replies': replies,
             'course': course_reg,
-            'post': stream
+            'post': stream,
+            'form': form
         }
+        if request.method == 'POST':
+            if form.is_valid():
+                this_form = form.save(commit=False)
+                this_form.user = request.user
+                this_form.stream = stream
+                this_form.save()
+                messages.success(request, "Comment added")
+                return redirect(reverse('classroom_view_post', args=[token]))
+            else:
+                messages.error(request, "Error")
         return render(request, path("classroom_view_post"), context)
     except Exception as e:
         print(e, "Here --- <")
         messages.error(request, "Access to this resource is denied")
-        return redirect(reverse('staffDashboard'))
+        return redirect(reverse('classroom_view_post', args=[token]))

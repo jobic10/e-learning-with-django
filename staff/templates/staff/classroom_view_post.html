@@ -88,25 +88,11 @@
   <script>
     $(function() {
 
-      $(document).on('click', '.assignment', function(e) {
+      $(document).on('click', '.launch', function(e) {
      
       e.preventDefault();
-      var id = $(this).data('id');
-      var action = $(this).data('action');
-      var token = location.pathname.split("/").slice(-3)[0].replace(/^\/|\/$/g, '');
-      if (action=='edit'){
-
-        var link = '{% url "edit_assignment_form" "token" 123 %}'.replace('token', token).replace(123, id);
-        window.location = link;
-      }else if (action == 'preview'){
-
-      }else{
-        //submission
-        var link = '{% url "view_submission" "token" 123 %}'.replace('token', token).replace(123, id);
-
-        window.location = link;
-
-      }
+      $('#comment_modal').modal('show');
+      
 
       
 
@@ -116,7 +102,8 @@
 {% endblock custom_js %}
 
 {% block modal %}
-<div class="modal fade" id="assignment_modal">
+
+<div class="modal fade" id="comment_modal">
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
@@ -125,9 +112,16 @@
                 <span aria-hidden="true">&times;</span></button>
               </div>
               <div class="modal-body">
-                <form action="{% url 'updateCourse' %}" method="post">
+                <form action="" method="post">
               {% csrf_token %}
-              <span id="form_body"></span>
+              <span id="form_body">
+                {% for field in form %}
+                <div class="form-group">
+                <b>{{field.label_tag}}</b>
+                <span class="text-danger">{{field.errors}}</span> {{field}}
+                </div>  
+                {% endfor %} 
+              </span>
               <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-info">
               </div>
