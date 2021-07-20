@@ -1,0 +1,14 @@
+- [ ] Check all templates for unused modals
+- [ ] Check all templates for unused scripts
+- [ ] Check all templates for unused repeated snippets
+- [ ] Check code for redirecting users to previous page
+- [ ] Check all views for replicated codes
+- [ ] Remove all prints
+- [ ] Bold form labels in {{field.errors}} {{field.label_tag}} {{field}}
+- [ ] Arrange above to {{field.label_tag}} {{field.errors}} {{field}}
+- [ ] Remove unused libraries
+- [ ] Active sidebar (misc.js)
+- [ ] Catch all Exceptions (Try/Except)
+- [ ] Functions `validate_access()` returns QuerySet with Session object inclusive, use the returned session (instead of calling the function `get_session()` again)
+- [ ] Contributing.md
+- [ ] Feature request
