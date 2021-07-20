@@ -1,0 +1,7 @@
+cryptocode==0.1
+Django==3.2.5
+django-ckeditor==6.1.0
+mysql-connector-python==8.0.25
+Pillow==8.3.1
+pycryptodomex==3.10.1
+
