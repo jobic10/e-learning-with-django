@@ -1,7 +1,6 @@
 - [x] Dashboard for all users
 - [x] Check all templates for unused modals
 - [x] Check all templates for unused scripts
-- [ ] Check all views for replicated codes
 - [ ] Remove all prints
 - [ ] Bold form labels in {{field.errors}} {{field.label_tag}} {{field}}
 - [ ] Arrange above to {{field.label_tag}} {{field.errors}} {{field}}
