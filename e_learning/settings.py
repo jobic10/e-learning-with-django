@@ -1,3 +1,4 @@
+import dj_database_url
 import os
 """
 Django settings for e_learning project.
@@ -26,7 +27,7 @@ SECRET_KEY = 'ml!sg(*)gtii3nirjtb%qwg-dbmh-i5@%bls&6#let*4!-2+qa'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']  # Do not use this in production
 
 
 # Application definition
@@ -184,3 +185,6 @@ CKEDITOR_CONFIGS = {
         'width': '100%'
     },
 }
+
+prod_db = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)
