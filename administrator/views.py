@@ -14,7 +14,11 @@ def path(html_file):
 
 
 def dashboard(request):
-    context = {}
+    context = {
+        'no_of_student': Student.objects.all().count(),
+        'no_of_staff': Staff.objects.all().count(),
+        'no_of_course': Course.objects.all().count(),
+    }
     return render(request, path("home"), context)
 
 
