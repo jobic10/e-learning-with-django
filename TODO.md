@@ -1,5 +1,5 @@
 - [x] Dashboard for all users
-- [ ] Check all templates for unused modals
+- [x] Check all templates for unused modals
 - [ ] Check all templates for unused scripts
 - [ ] Check all templates for unused repeated snippets
 - [ ] Check code for redirecting users to previous page

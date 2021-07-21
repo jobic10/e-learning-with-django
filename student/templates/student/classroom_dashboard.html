@@ -1,7 +1,7 @@
 {% extends 'administrator/main.html' %}
 {% load static %}
-{% load extra_tags %}
 {% load encrypt_tags %}
+{% load extra_tags %}
 {% block content %}
   <div class="content-wrapper pb-0">
     <div class="page-header flex-wrap">
@@ -77,7 +77,7 @@
                             <div class="media">
                               <i class="mdi mdi-earth icon-md text-info d-flex align-self-start mr-3"></i>
                               <div class="media-body">
-                                <p class="card-text"> {{ (post.message|little) }} </p>
+                                <p class="card-text"> {{ post.message|little }} </p>
                                 <p class="mt-n4"><a href="" class='launch' data-id='{{ post.id }}' data-what='replies'><small class="text-muted">{{ post.id|comments }}</small></a></p>
 
                               </div>
