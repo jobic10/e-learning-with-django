@@ -301,7 +301,8 @@ def manageStaff(request):
     else:
         paginator = Paginator(all_staff, all_staff.count())
     page = request.GET.get('page', 1)
-    context['staffs'] = paginator.get_page(page)
+    if all_staff.count() != 0:
+        context['staffs'] = paginator.get_page(page)
 
     return render(request, path('staff'), context)
 
