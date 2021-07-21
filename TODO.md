@@ -1,3 +1,4 @@
+- [ ] Dashboard for all users
 - [ ] Check all templates for unused modals
 - [ ] Check all templates for unused scripts
 - [ ] Check all templates for unused repeated snippets
