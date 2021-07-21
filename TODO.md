@@ -2,8 +2,8 @@
 - [x] Check all templates for unused modals
 - [x] Check all templates for unused scripts
 - [x] Remove all prints
-- [ ] Bold form labels in {{field.errors}} {{field.label_tag}} {{field}}
-- [ ] Arrange above to {{field.label_tag}} {{field.errors}} {{field}}
+- [x] Bold form labels in {{field.errors}} {{field.label_tag}} {{field}}
+- [x] Arrange above to {{field.label_tag}} {{field.errors}} {{field}}
 - [ ] Remove unused libraries
 - [ ] Active sidebar (misc.js)
 - [ ] Catch all Exceptions (Try/Except)

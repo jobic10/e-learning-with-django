@@ -25,6 +25,7 @@
                             
                             {% for field in form %}
                             {% if field.field.widget|is_checkbox %}
+                            
                             <div class="form-check">
                               {{field.errors}}
                               <label class="form-check-label" for="id_{{ field.name }}">
@@ -32,10 +33,10 @@
                             </div>
                             {% else %}
 
-                           
                             <div class="form-group">
-                            {{field.errors}} {{field.label_tag}} {{field}}
-                            </div>  
+                              <b>{{field.label_tag}}</b>
+                              <span class="text-danger">{{field.errors}}</span> {{field}}
+                              </div>   
                             {% endif %}
                             {% endfor %} 
                               

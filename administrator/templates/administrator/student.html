@@ -22,13 +22,15 @@
                             {% csrf_token %}
                             {% for field in form %}
                             <div class="form-group">
-                            {{field.errors}} {{field.label_tag}} {{field}}
-                            </div>  
+                              <b>{{field.label_tag}}</b>
+                              <span class="text-danger">{{field.errors}}</span> {{field}}
+                              </div>   
                             {% endfor %} 
                             {% for field in form2 %}
                             <div class="form-group">
-                            {{field.errors}} {{field.label_tag}} {{field}}
-                            </div>  
+                              <b>{{field.label_tag}}</b>
+                              <span class="text-danger">{{field.errors}}</span> {{field}}
+                              </div>  
                             {% endfor %} 
                             <div class="form-group">
                             <input type="submit" value="Submit" class="btn btn-info">
