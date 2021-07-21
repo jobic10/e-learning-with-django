@@ -66,10 +66,10 @@ def fetch_answer_to_this_assignment(student, assignment_id):
     try:
         session = get_session()
         assignment = Assignment.objects.get(session=session, id=assignment_id)
-        print(assignment)
+
         submission = Submission.objects.get(
             assignment=assignment, student=student)
-        print(submission)
+
         value = submission
         error = False
     except Exception as e:

@@ -114,7 +114,7 @@ def studentClassroom(request, token):
         }
         return render(request, path("classroom_dashboard"), context)
     except Exception as e:
-        print(e, "Here ---<")
+
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('studentDashboard'))
 
@@ -131,7 +131,7 @@ def active_assignments(request, token):
         }
         return render(request, path("classroom_all_assignment"), context)
     except Exception as e:
-        print(e, "Here ---<")
+
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('studentDashboard'))
 
@@ -163,7 +163,7 @@ def submit_assignment(request, token, assignment_id):
         }
         return render(request, path("classroom_submit_assignment"), context)
     except Exception as e:
-        print(e, "Here ---<")
+
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('studentDashboard'))
 
@@ -176,13 +176,12 @@ def get_answer(request, token, assignment_id):
         course_reg = validate_access(token, request, 'student')
         error, value = fetch_answer_to_this_assignment(
             request.user.student, assignment_id)
-        print(error, value, assignment_id, "Na him be that")
         if not error:
             context['submitted_date'] = format_date(value.submission_date)
             context['answer'] = value.answer
         context['error'] = error
     except Exception as e:
-        print(e, "Here ---<")
+
         context['error'] = True
     return JsonResponse(context, safe=True)
 
@@ -212,6 +211,6 @@ def student_view_post(request, token, stream_id):
                 messages.error(request, "Error")
         return render(request, path("classroom_view_post"), context)
     except Exception as e:
-        print(e, "Here --- <")
+
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('student_view_post', args=[token, stream.id]))

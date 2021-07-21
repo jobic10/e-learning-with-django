@@ -159,7 +159,7 @@ def staffClassroom(request, token):
         }
         return render(request, path("classroom_dashboard"), context)
     except Exception as e:
-        print(e, "Here ---<")
+
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('staffDashboard'))
 
@@ -186,7 +186,7 @@ def get_assignment_form(request, token):
                 messages.error(request, "Please fill form properly")
         return render(request, path("classroom_assignment"), context)
     except Exception as e:
-        print(e, "Here ---<")
+
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('staffDashboard'))
 
@@ -202,7 +202,7 @@ def view_all_assignments(request, token):
         }
         return render(request, path("classroom_view_assignment"), context)
     except Exception as e:
-        print(e, "Here --- <")
+
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('staffDashboard'))
 
@@ -226,7 +226,7 @@ def edit_assignment_form(request, token, assignment_id):
 
         return render(request, path("edit_assignment_form"), context)
     except Exception as e:
-        print(e, "Here --- <")
+
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('staffDashboard'))
 
@@ -244,7 +244,7 @@ def view_submission(request, token, assignment_id):
         }
         return render(request, path("classroom_view_assignment_submission"), context)
     except Exception as e:
-        print(e, "Here --- <")
+
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('staffDashboard'))
 
@@ -264,7 +264,7 @@ def get_student_answer(request, token, submission_id):
             context['answer'] = value.answer
         context['error'] = error
     except Exception as e:
-        print(e, "Here ---<")
+
         context['error'] = True
     return JsonResponse(context, safe=True)
 
@@ -294,6 +294,6 @@ def classroom_view_post(request, token, stream_id):
                 messages.error(request, "Error")
         return render(request, path("classroom_view_post"), context)
     except Exception as e:
-        print(e, "Here --- <")
+
         messages.error(request, "Access to this resource is denied")
         return redirect(reverse('classroom_view_post', args=[token, stream.id]))

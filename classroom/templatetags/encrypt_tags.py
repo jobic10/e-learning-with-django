@@ -6,5 +6,4 @@ register = template.Library()
 @register.filter(name='encrypt')
 def encrypt(value):
     string = e(value).replace('/', '?')
-    print("Value now is -> ", d(string.replace('?', '/')))
     return string
