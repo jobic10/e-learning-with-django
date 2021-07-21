@@ -130,7 +130,7 @@ def courseAppResponse(request, this_id, status):
 def staffClassroom(request, token):
     try:
         course_reg = validate_access(token, request, 'staff')
-        session = get_session()
+        session = course_reg.session
         assignments = Assignment.objects.filter(
             session=session, course=course_reg.course)
         posts = Stream.objects.filter(
@@ -178,7 +178,7 @@ def get_assignment_form(request, token):
             if assignment_form.is_valid():
                 assignment = assignment_form.save(commit=False)
                 assignment.course = course_reg.course
-                assignment.session = get_session()
+                assignment.session = course_reg.session
                 assignment.save()
                 context['form'] = AssignmentForm()
                 messages.success(request, "New Assignment Created")
@@ -195,7 +195,7 @@ def view_all_assignments(request, token):
     course_reg = validate_access(token, request, 'staff')
     try:
         assignments = Assignment.objects.filter(
-            session=get_session(), course=course_reg.course).order_by('-expiry_date')
+            session=course_reg.session, course=course_reg.course).order_by('-expiry_date')
         context = {
             'assignments': assignments,
             'course': course_reg
@@ -211,7 +211,7 @@ def edit_assignment_form(request, token, assignment_id):
     try:
         course_reg = validate_access(token, request, 'staff')
         assignment = Assignment.objects.get(
-            id=assignment_id, course=course_reg.course, session=get_session())
+            id=assignment_id, course=course_reg.course, session=course_reg.session)
         form = AssignmentForm(request.POST or None, instance=assignment)
         context = {
             'form': form,
@@ -235,7 +235,7 @@ def view_submission(request, token, assignment_id):
     try:
         course_reg = validate_access(token, request, 'staff')
         assignment = Assignment.objects.get(
-            id=assignment_id, course=course_reg.course, session=get_session())
+            id=assignment_id, course=course_reg.course, session=course_reg.session)
         submissions = Submission.objects.filter(assignment=assignment)
         context = {
             'submissions': submissions,
@@ -273,7 +273,7 @@ def classroom_view_post(request, token, stream_id):
     try:
         course_reg = validate_access(token, request, 'staff')
         stream = Stream.objects.get(
-            id=stream_id, course=course_reg.course, session=get_session())
+            id=stream_id, course=course_reg.course, session=course_reg.session)
         replies = StreamReply.objects.filter(stream=stream)
         form = AddReplyForm(request.POST or None)
         context = {

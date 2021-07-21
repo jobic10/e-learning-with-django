@@ -83,7 +83,7 @@ def courseRegistration(request):
 def studentClassroom(request, token):
     try:
         course_reg = validate_access(token, request, 'student')
-        session = get_session()
+        session = course_reg.session
         student = request.user.student
         assignments = Assignment.objects.filter(
             session=session, course=course_reg.course)
@@ -121,8 +121,8 @@ def studentClassroom(request, token):
 
 def active_assignments(request, token):
     try:
-        session = get_session()
         course_reg = validate_access(token, request, 'student')
+        session = course_reg.session
         assignments = Assignment.objects.filter(
             session=session, course=course_reg.course).order_by('-expiry_date')
         context = {
@@ -138,8 +138,8 @@ def active_assignments(request, token):
 
 def submit_assignment(request, token, assignment_id):
     try:
-        session = get_session()
         course_reg = validate_access(token, request, 'student')
+        session = course_reg.session
         assignment = Assignment.objects.get(
             session=session, course=course_reg.course, id=assignment_id)
         # Check if this assignment has expire
@@ -190,7 +190,7 @@ def student_view_post(request, token, stream_id):
     try:
         course_reg = validate_access(token, request, 'student')
         stream = Stream.objects.get(
-            id=stream_id, course=course_reg.course, session=get_session())
+            id=stream_id, course=course_reg.course, session=course_reg.session)
         replies = StreamReply.objects.filter(stream=stream)
         form = AddReplyForm(request.POST or None)
         context = {
