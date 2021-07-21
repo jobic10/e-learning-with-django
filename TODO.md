@@ -7,6 +7,6 @@
 - [x] Remove unused libraries
 - [x] Catch all Exceptions (Try/Except) - Exceptions are based on user roles -> Middleware would fix it
 - [x] Functions `validate_access()` returns QuerySet with Session object inclusive, use the returned session (instead of calling the function `get_session()` again)
-- [ ] Middleware
+- [x] Middleware
 - [ ] Contributing.md
 - [ ] Feature request
