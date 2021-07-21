@@ -130,12 +130,7 @@ def courseAppResponse(request, this_id, status):
 def staffClassroom(request, token):
     try:
         course_reg = validate_access(token, request, 'staff')
-        # if course_id == False or course_id < 1 or not course_id:
-        #     raise("Access Denied")
         session = get_session()
-        # staff = request.user.staff
-        # course_reg = CourseAllocation.objects.get(
-        #     staff=staff, course_id=course_id, session=session, approved=True)
         assignments = Assignment.objects.filter(
             session=session, course=course_reg.course)
         posts = Stream.objects.filter(
