@@ -16,7 +16,17 @@ def path(html_file):
 
 
 def dashboard(request):
-    context = {}
+    session = get_session()
+    student = request.user.student
+    my_courses = CourseRegistration.objects.filter(
+        student=student, session=session, approved=True)
+    assignments = Assignment.objects.filter(
+        session=session, course__in=my_courses.values_list('course_id'))
+    context = {
+        'all_assignments': assignments.count(),
+        'active_assignments': assignments.filter(expiry_date__gt=datetime.today()).count(),
+        'my_courses': my_courses.count()
+    }
     return render(request, path("home"), context)
 
 
