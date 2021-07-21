@@ -4,9 +4,8 @@
 - [x] Remove all prints
 - [x] Bold form labels in {{field.errors}} {{field.label_tag}} {{field}}
 - [x] Arrange above to {{field.label_tag}} {{field.errors}} {{field}}
-- [ ] Remove unused libraries
-- [ ] Active sidebar (misc.js)
-- [ ] Catch all Exceptions (Try/Except)
+- [x] Remove unused libraries
+- [x] Catch all Exceptions (Try/Except) - Exceptions are based on user roles -> Middleware would fix it
 - [ ] Functions `validate_access()` returns QuerySet with Session object inclusive, use the returned session (instead of calling the function `get_session()` again)
 - [ ] Middleware
 - [ ] Contributing.md
